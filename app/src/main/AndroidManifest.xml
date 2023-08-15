@@ -13,7 +13,10 @@
         android:theme="@style/Theme.CybershopAPP"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
+            android:name=".ViewClientActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MenuActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
