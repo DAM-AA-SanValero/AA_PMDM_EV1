@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="68dp"
             android:gravity="center"
-            android:text="CYBERSHOP"
+            android:text="@string/cybershop"
             android:textColor="@color/purple_700"
             android:textSize="30sp"
             android:textStyle="bold" />

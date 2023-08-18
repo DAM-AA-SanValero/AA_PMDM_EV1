@@ -1,6 +1,11 @@
 package com.svalero.cybershopapp.adapters;
 
+import static com.svalero.cybershopapp.R.string.Are_you_sure_alert_dialog;
+import static com.svalero.cybershopapp.database.Constants.DATABASE_NAME;
+
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -93,14 +98,22 @@ public class ClientAdapter extends RecyclerView.Adapter<ClientAdapter.ClientHold
         context.startActivity(intent);
     }
     public void deleteClient(int position){
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setMessage(R.string.Are_you_sure_alert_dialog)
+                .setTitle(R.string.delete_client)
+                .setPositiveButton(R.string.yes, (dialog, i) -> {
+                    final AppDatabase db = Room.databaseBuilder(context, AppDatabase.class, DATABASE_NAME)
+                            .allowMainThreadQueries().build();
+                    Client task = clientList.get(position);
+                    db.clientDao().delete(task);
 
-        final AppDatabase db = Room.databaseBuilder(context, AppDatabase.class, "clients")
-                .allowMainThreadQueries().build();
-        Client client = clientList.get(position);
-        db.clientDao().delete(client);
+                    clientList.remove(position);
+                    notifyItemRemoved(position);
+                })
+                        .setNegativeButton(R.string.no, (dialog, id) -> dialog.dismiss());
+        AlertDialog dialog = builder.create();
+        dialog.show();
 
-        clientList.remove(position);
-        notifyItemRemoved(position);
     }
 
 

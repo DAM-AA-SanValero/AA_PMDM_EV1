@@ -9,9 +9,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
         android:layout_marginTop="40dp"
-        android:layout_marginEnd="20dp"
         android:gravity="center"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
@@ -20,7 +18,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_height="40dp"
             android:layout_marginBottom="3dp"
             android:gravity="center"
             android:orientation="horizontal">
@@ -30,7 +28,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="Nombre"
+                android:text="@string/name"
                 android:textColor="#000000"
                 android:textSize="25dp" />
 
@@ -40,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:gravity="center"
-                android:text="Apellido"
+                android:text="@string/surname"
                 android:textColor="#020000"
                 android:textSize="25dp" />
 
@@ -53,14 +51,14 @@
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
             android:gravity="center"
-            android:text="Number"
+            android:text="@string/number"
             android:textColor="#672828"
             android:textSize="18dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="5dp"
+            android:layout_marginTop="5dp"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -71,7 +69,8 @@
                 android:layout_marginRight="10dp"
                 android:gravity="center"
                 android:onClick="detailsButton"
-                android:text="Details" />
+                android:text="@string/details"
+                android:textSize="13sp" />
 
             <Button
                 android:id="@+id/updateButton"
@@ -80,7 +79,9 @@
                 android:layout_marginRight="10dp"
                 android:gravity="center"
                 android:onClick="updateClient"
-                android:text="Update" />
+                android:text="@string/update"
+                android:textSize="13sp" />
+
 
             <Button
                 android:id="@+id/deleteButton"
@@ -89,7 +90,8 @@
                 android:layout_weight="0"
                 android:gravity="center"
                 android:onClick="deleteClient"
-                android:text="Delete" />
+                android:text="@string/delete"
+                android:textSize="13sp" />
 
         </LinearLayout>
 

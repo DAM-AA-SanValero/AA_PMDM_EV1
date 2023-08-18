@@ -31,12 +31,15 @@ public class Client {
     @ColumnInfo
     private double longitude;
 
-    public Client(String name, String surname, int number, String register_date, boolean vip) {
+    public Client(String name, String surname, int number, String register_date, boolean vip
+            , double latitude, double longitude) {
         this.name = name;
         this.surname = surname;
         this.number = number;
         this.register_date = register_date;
         this.vip = vip;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
     public long getId() {

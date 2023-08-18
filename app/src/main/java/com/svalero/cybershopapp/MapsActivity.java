@@ -2,18 +2,15 @@ package com.svalero.cybershopapp;
 
 import static com.svalero.cybershopapp.database.Constants.DATABASE_NAME;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
 
-import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import com.mapbox.geojson.Point;
 import com.mapbox.maps.CameraOptions;
 import com.mapbox.maps.MapView;
-import com.mapbox.maps.Style;
 import com.mapbox.maps.plugin.annotation.AnnotationConfig;
 import com.mapbox.maps.plugin.annotation.AnnotationPlugin;
 import com.mapbox.maps.plugin.annotation.AnnotationPluginImplKt;
@@ -35,14 +32,13 @@ public class MapsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
-        mapView = findViewById(R.id.mapView);
+        mapView = findViewById(R.id.clientMap);
         initializePointManager();
 
         database = Room.databaseBuilder(this, AppDatabase.class, DATABASE_NAME)
                 .allowMainThreadQueries().build();
         List<Client> clients = database.clientDao().getAll();
         addClientsToMap(clients);
-
     }
 
     private void addClientsToMap(List<Client> clients) {
@@ -55,27 +51,29 @@ public class MapsActivity extends AppCompatActivity {
         setCameraPosition(Point.fromLngLat(lastClient.getLongitude(),lastClient.getLatitude()));
     }
 
-    private void setCameraPosition(Point fromLngLat) {
-        CameraOptions cameraPosition = new CameraOptions.Builder()
-                .center(fromLngLat)
-                .pitch(0.0)
-                .zoom(13.5)
-                .bearing(-17.6)
-                .build();
-        mapView.getMapboxMap().setCamera(cameraPosition);
+    private void initializePointManager() {
+        AnnotationPlugin annotationPlugin = AnnotationPluginImplKt.getAnnotations(mapView);
+        AnnotationConfig annotationConfig = new AnnotationConfig();
+        pointAnnotationManager = PointAnnotationManagerKt.createPointAnnotationManager(annotationPlugin, annotationConfig);
     }
 
     private void addMarker(Point point, String name) {
         PointAnnotationOptions pointAnnotationOptions = new PointAnnotationOptions()
                 .withPoint(point)
                 .withTextField(name)
-                .withIconImage(BitmapFactory.decodeResource(getResources(), R.mipmap.purple_markerfg));
+                .withIconImage(BitmapFactory.decodeResource(getResources(), R.mipmap.purple_marker_foreground));
         pointAnnotationManager.create(pointAnnotationOptions);
     }
 
-    private void initializePointManager() {
-        AnnotationPlugin annotationPlugin = AnnotationPluginImplKt.getAnnotations(mapView);
-        AnnotationConfig annotationConfig = new AnnotationConfig();
-        pointAnnotationManager = PointAnnotationManagerKt.createPointAnnotationManager(annotationPlugin, annotationConfig);
+    private void setCameraPosition(Point point) {
+        CameraOptions cameraPosition = new CameraOptions.Builder()
+                .center(point)
+                .pitch(45.0)
+                .zoom(13.5)
+                .bearing(-17.6)
+                .build();
+        mapView.getMapboxMap().setCamera(cameraPosition);
     }
+
+
 }

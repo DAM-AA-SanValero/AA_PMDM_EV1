@@ -1,3 +1,25 @@
 <resources>
     <string name="app_name">CybershopAPP</string>
+    <string name="name">Name</string>
+    <string name="surname">Surname</string>
+    <string name="number">Number</string>
+    <string name="update">Update</string>
+    <string name="delete">Delete</string>
+    <string name="cybershop">CYBERSHOP</string>
+    <string name="add">ADD</string>
+    <string name="cancel">Cancel</string>
+    <string name="details">Details</string>
+    <string name="register_client">Register Client</string>
+    <string name="map">Map</string>
+    <string name="preferences">Preferences</string>
+    <string name="client_registered">Client Registered</string>
+    <string name="error_registering">Error while register</string>
+    <string name="required_data">Please, fill the required fields</string>
+    <string name="Are_you_sure_alert_dialog">Are you sure?</string>
+    <string name="delete_client">Delete client</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="name_required">Name*</string>
+    <string name="surname_required">Surname*</string>
+    <string name="phone_number_required">Phone Number*</string>
 </resources>

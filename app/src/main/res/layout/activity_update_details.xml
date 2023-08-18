@@ -21,7 +21,7 @@
             android:layout_marginRight="5dp"
             android:layout_weight="1"
             android:onClick="updateButton"
-            android:text="Update" />
+            android:text="@string/update" />
 
         <Button
             android:id="@+id/cancelButton"
@@ -30,7 +30,7 @@
             android:layout_marginLeft="5dp"
             android:layout_weight="1"
             android:onClick="cancelButton"
-            android:text="Cancel" />
+            android:text="@string/cancel" />
 
     </LinearLayout>
 

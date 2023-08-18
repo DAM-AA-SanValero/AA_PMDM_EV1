@@ -38,9 +38,6 @@ public class ViewClientActivity extends AppCompatActivity  {
         recyclerView.setLayoutManager(layoutManager);
         clientAdapter = new ClientAdapter(clientList, this);
         recyclerView.setAdapter(clientAdapter);
-
-        /*List<Client> clientList = new ArrayList<>();
-        clientAdapter = new ClientAdapter(clientList);*/
     }
 
 
