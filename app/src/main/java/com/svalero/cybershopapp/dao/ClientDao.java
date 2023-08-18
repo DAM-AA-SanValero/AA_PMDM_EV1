@@ -15,13 +15,17 @@ public interface ClientDao {
 
     @Query("SELECT * FROM client")
     List<Client> getAll();
+    @Query("SELECT * FROM client WHERE name = :name")
+    Client getByName(String name);
+    @Query("DELETE FROM client WHERE name = :name")
+    void deleteByName(String name);
+    @Query("UPDATE client SET name = :newName, surname = :newSurname, number = :newNumber WHERE name = :currentName")
+    void updateByName(String currentName, String newName, String newSurname, int newNumber);
 
     @Insert
     void insert(Client client);
-
     @Delete
     void delete(Client client);
-
     @Update
     void update(Client client);
 

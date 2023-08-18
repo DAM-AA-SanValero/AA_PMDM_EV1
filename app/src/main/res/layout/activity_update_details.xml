@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="20dp"
-    tools:context=".RegisterClientActivity">
+    tools:context=".UpdateDetailsActivity">
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -20,8 +20,8 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="5dp"
             android:layout_weight="1"
-            android:onClick="addButton"
-            android:text="ADD" />
+            android:onClick="updateButton"
+            android:text="Update" />
 
         <Button
             android:id="@+id/cancelButton"
@@ -59,7 +59,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:ems="10"
-            android:hint="Name*"
+            android:hint="Name"
             android:inputType="text"
             android:minHeight="48dp" />
 
@@ -69,7 +69,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:ems="10"
-            android:hint="Surname*"
+            android:hint="Surname"
             android:inputType="text"
             android:minHeight="48dp" />
 
@@ -79,7 +79,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:ems="10"
-            android:hint="Phone Number*"
+            android:hint="Phone Number"
             android:inputType="number"
             android:minHeight="48dp" />
 

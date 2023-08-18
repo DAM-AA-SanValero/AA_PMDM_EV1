@@ -1,26 +1,32 @@
 package com.svalero.cybershopapp.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
-import android.widget.DatePicker;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
 
+import com.svalero.cybershopapp.ClientDetailsActivity;
 import com.svalero.cybershopapp.R;
+import com.svalero.cybershopapp.UpdateDetailsActivity;
+import com.svalero.cybershopapp.database.AppDatabase;
 import com.svalero.cybershopapp.domain.Client;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ClientAdapter extends RecyclerView.Adapter<ClientAdapter.ClientHolder> {
-    private List<Client> clientList;
+    public List<Client> clientList;
+    public Context context;
 
-    public ClientAdapter(List<Client> clientList) {
+    ClientAdapter clientAdapter;
+    public ClientAdapter(List<Client> clientList, Context context) {
         this.clientList = clientList;
+        this.context = context;
     }
 
     @Override
@@ -48,6 +54,10 @@ public class ClientAdapter extends RecyclerView.Adapter<ClientAdapter.ClientHold
         public TextView clientNumber;
         public View parentView;
 
+        public Button detailsButton;
+        public Button updateButton;
+        public Button deleteButton;
+
         public ClientHolder(View view){
             super(view);
             parentView = view;
@@ -55,6 +65,44 @@ public class ClientAdapter extends RecyclerView.Adapter<ClientAdapter.ClientHold
             clientName = view.findViewById(R.id.clientName);
             clientSurname = view.findViewById(R.id.clientSurname);
             clientNumber = view.findViewById(R.id.clientNumber);
+
+            detailsButton = view.findViewById(R.id.detailsButton);
+            updateButton = view.findViewById(R.id.updateButton);
+            deleteButton = view.findViewById(R.id.deleteButton);
+
+
+            detailsButton.setOnClickListener(v -> seeClient(getAdapterPosition()));
+            updateButton.setOnClickListener(v -> updateClient(getAdapterPosition()));
+            deleteButton.setOnClickListener(v -> deleteClient(getAdapterPosition()));
+
         }
     }
+
+    public void seeClient(int position){
+        Client client = clientList.get(position);
+        Intent intent = new Intent(context, ClientDetailsActivity.class);
+        intent.putExtra("name", client.getName());
+        context.startActivity(intent);
+
+    }
+    public void updateClient(int position){
+        Client client = clientList.get(position);
+        Intent intent = new Intent(context, UpdateDetailsActivity.class);
+        intent.putExtra("name", client.getName());
+        intent.putExtra("position", position);
+        context.startActivity(intent);
+    }
+    public void deleteClient(int position){
+
+        final AppDatabase db = Room.databaseBuilder(context, AppDatabase.class, "clients")
+                .allowMainThreadQueries().build();
+        Client client = clientList.get(position);
+        db.clientDao().delete(client);
+
+        clientList.remove(position);
+        notifyItemRemoved(position);
+    }
+
+
+
 }

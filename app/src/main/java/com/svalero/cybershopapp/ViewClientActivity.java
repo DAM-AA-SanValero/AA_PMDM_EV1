@@ -36,7 +36,7 @@ public class ViewClientActivity extends AppCompatActivity  {
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this); //Pauta para ajustar el recycler view
         recyclerView.setLayoutManager(layoutManager);
-        clientAdapter = new ClientAdapter(clientList);
+        clientAdapter = new ClientAdapter(clientList, this);
         recyclerView.setAdapter(clientAdapter);
 
         /*List<Client> clientList = new ArrayList<>();
@@ -48,7 +48,7 @@ public class ViewClientActivity extends AppCompatActivity  {
     protected void onResume() {
         super.onResume();
 
-        final AppDatabase database = Room.databaseBuilder(this, AppDatabase.class, "client")
+        final AppDatabase database = Room.databaseBuilder(this, AppDatabase.class, "clients")
                 .allowMainThreadQueries().build();
         clientList.clear();
         clientList.addAll(database.clientDao().getAll());
