@@ -26,6 +26,11 @@ public class Client {
     @ColumnInfo
     private boolean vip;
 
+    @ColumnInfo
+    private double latitude;
+    @ColumnInfo
+    private double longitude;
+
     public Client(String name, String surname, int number, String register_date, boolean vip) {
         this.name = name;
         this.surname = surname;
@@ -80,5 +85,21 @@ public class Client {
 
     public void setVip(boolean vip) {
         this.vip = vip;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 }
