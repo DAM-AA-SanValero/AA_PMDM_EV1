@@ -1,22 +1,33 @@
 package com.svalero.cybershopapp;
 
 import static com.svalero.cybershopapp.R.string.client_registered;
-import static com.svalero.cybershopapp.R.string.error_registering;
 import static com.svalero.cybershopapp.R.string.required_data;
 import static com.svalero.cybershopapp.database.Constants.DATABASE_NAME;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
+
+import android.content.Intent;
+import android.content.res.Configuration;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteConstraintException;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
@@ -33,14 +44,19 @@ import com.mapbox.maps.plugin.annotation.generated.PointAnnotationOptions;
 import com.mapbox.maps.plugin.gestures.GesturesPlugin;
 import com.mapbox.maps.plugin.gestures.GesturesUtils;
 import com.mapbox.maps.plugin.gestures.OnMoveListener;
+import com.squareup.picasso.Picasso;
 import com.svalero.cybershopapp.database.AppDatabase;
 import com.svalero.cybershopapp.domain.Client;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Locale;
 
 public class RegisterClientActivity extends AppCompatActivity {
 
     private Client client;
+    private ImageView imageView;
+    private static final int SELECT_PICTURE = 100;
     private EditText etName;
     private EditText etSurname;
     private EditText etNumber;
@@ -50,8 +66,8 @@ public class RegisterClientActivity extends AppCompatActivity {
     private ScrollView scrollView;
     private Point point;
     private PointAnnotationManager pointAnnotationManager;
-    
-    AppDatabase database;
+    private AppDatabase database;
+    private String imagePath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +81,10 @@ public class RegisterClientActivity extends AppCompatActivity {
         cbVIP = findViewById(R.id.cbVip);
         clientMap = findViewById(R.id.clientMap);
         scrollView = findViewById(R.id.scrollView);
+        imageView = findViewById(R.id.photoContact);
+
+        imageView.setOnClickListener(v -> openGallery());
+
 
         GesturesPlugin gesturesPlugin = GesturesUtils.getGestures(clientMap);
         gesturesPlugin.addOnMapClickListener(point -> {
@@ -92,8 +112,16 @@ public class RegisterClientActivity extends AppCompatActivity {
 
     }
 
+    private void openGallery() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, getString(R.string.select_a_profile_image)), SELECT_PICTURE);
+    }
+
     public void addButton(View view) {
 
+        String image = imagePath;
         String name = etName.getText().toString();
         String surname = etSurname.getText().toString();
         String number = etNumber.getText().toString();
@@ -105,7 +133,14 @@ public class RegisterClientActivity extends AppCompatActivity {
             return;
         }
 
-        client = new Client(name, surname, Integer.parseInt(number), date, false, point.latitude(), point.longitude());
+        if (point == null) {
+            Snackbar.make(this.getCurrentFocus(), R.string.select_the_correct_location, BaseTransientBottomBar.LENGTH_LONG).show();
+            return;
+        }
+
+        client = new Client(name, surname, Integer.parseInt(number), date, false, point.latitude(), point.longitude(), imagePath);
+
+
 
         final AppDatabase database = Room.databaseBuilder(this, AppDatabase.class, DATABASE_NAME)
                 .allowMainThreadQueries().build();
@@ -122,7 +157,7 @@ public class RegisterClientActivity extends AppCompatActivity {
         } catch (SQLiteConstraintException sce){
             Snackbar.make(etName, R.string.error_registering, BaseTransientBottomBar.LENGTH_LONG).show();
         }
-
+        database.close();
     }
 
     public void cancelButton(View view){
@@ -161,11 +196,81 @@ public class RegisterClientActivity extends AppCompatActivity {
         clientMap.getMapboxMap().setCamera(cameraPosition);
     }
 
-
-
     private void removeAllMarkers(){
         pointAnnotationManager.deleteAll();
     }
 
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == SELECT_PICTURE && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            Uri filePath = data.getData();
+            Picasso.get()
+                    .load(filePath)
+                    .into(imageView);
+            imagePath = getPathFromUri(filePath);
+        }
+    }
+
+    private String getPathFromUri(Uri uri) {
+        String path = null;
+        String[] projection = {MediaStore.Images.Media.DATA};
+        Cursor cursor = getContentResolver().query(uri, projection, null, null, null);
+        if (cursor != null) {
+            cursor.moveToFirst();
+            int columnIndex = cursor.getColumnIndex(projection[0]);
+            path = cursor.getString(columnIndex);
+            cursor.close();
+        }
+        return path;
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.actonbar_preferencesmenu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        int id = item.getItemId();
+
+         if (id == R.id.getPreferences){
+            showLanguageSelectionDialog();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void showLanguageSelectionDialog() {
+        String[] languages = {"Español", "English"};
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Select language");
+        builder.setItems(languages, (dialog, which) ->{
+            switch (which){
+                case 0:
+                    setLocale("es");
+                    break;
+                case 1:
+                    setLocale("en");
+                    break;
+            }
+        });
+        builder.create().show();
+    }
+
+    private void setLocale(String lang) {
+        Locale locale = new Locale(lang);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.setLocale(locale);
+        getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources()
+                .getDisplayMetrics());
+        recreate();
+    }
+
+
 }
+
 

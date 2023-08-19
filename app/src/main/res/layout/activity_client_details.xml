@@ -3,14 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/ConstraintLayout"
+    android:background="@color/teal_200"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <LinearLayout
+        android:id="@+id/linearLayout3"
         android:layout_width="338dp"
-        android:layout_height="138dp"
+        android:layout_height="250dp"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="40dp"
         android:layout_marginEnd="20dp"
         android:gravity="center"
         android:orientation="vertical"
@@ -18,12 +19,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <ImageView
+            android:id="@+id/clientPhoto"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="5dp"
+            app:srcCompat="@drawable/person" />
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_height="40dp"
             android:layout_marginBottom="3dp"
             android:gravity="center"
             android:orientation="horizontal">
+
 
             <TextView
                 android:id="@+id/clientName"
@@ -57,33 +67,22 @@
             android:textColor="#672828"
             android:textSize="18dp" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="5dp"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/updateButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
-                android:gravity="center"
-                android:onClick="updateButton"
-                android:text="@string/update" />
-
-            <Button
-                android:id="@+id/deleteButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="0"
-                android:gravity="center"
-                android:onClick="deleteClient"
-                android:text="@string/delete" />
-
-        </LinearLayout>
-
     </LinearLayout>
+
+    <com.mapbox.maps.MapView
+        android:id="@+id/clientMap"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="230dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginBottom="40dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:mapbox_cameraTargetLat="41.6396971"
+        app:mapbox_cameraTargetLng="-0.8738521"
+        app:mapbox_cameraZoom="13.0"></com.mapbox.maps.MapView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -22,4 +22,7 @@
     <string name="name_required">Name*</string>
     <string name="surname_required">Surname*</string>
     <string name="phone_number_required">Phone Number*</string>
+    <string name="Welcome_to">Welcome to</string>
+    <string name="select_a_profile_image">Select a profile image</string>
+    <string name="select_the_correct_location">Select the correct location</string>
 </resources>

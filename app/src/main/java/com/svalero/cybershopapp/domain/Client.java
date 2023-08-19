@@ -5,7 +5,6 @@ import androidx.room.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
 
 @Data
 @AllArgsConstructor
@@ -31,8 +30,10 @@ public class Client {
     @ColumnInfo
     private double longitude;
 
-    public Client(String name, String surname, int number, String register_date, boolean vip
-            , double latitude, double longitude) {
+    @ColumnInfo
+    private String imagePath;
+
+    public Client(String name, String surname, int number, String register_date, boolean vip, double latitude, double longitude, String imagePath) {
         this.name = name;
         this.surname = surname;
         this.number = number;
@@ -40,6 +41,7 @@ public class Client {
         this.vip = vip;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.imagePath = imagePath;
     }
 
     public long getId() {
@@ -104,5 +106,13 @@ public class Client {
 
     public void setLongitude(double longitude) {
         this.longitude = longitude;
+    }
+
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
     }
 }

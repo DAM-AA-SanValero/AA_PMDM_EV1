@@ -89,6 +89,7 @@ public class ClientAdapter extends RecyclerView.Adapter<ClientAdapter.ClientHold
         intent.putExtra("name", client.getName());
         context.startActivity(intent);
 
+
     }
     public void updateClient(int position){
         Client client = clientList.get(position);

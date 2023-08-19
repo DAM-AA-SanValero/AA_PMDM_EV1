@@ -2,11 +2,16 @@ package com.svalero.cybershopapp;
 
 import static com.svalero.cybershopapp.database.Constants.DATABASE_NAME;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
 
+import android.content.res.Configuration;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.mapbox.geojson.Point;
 import com.mapbox.maps.CameraOptions;
@@ -21,6 +26,7 @@ import com.svalero.cybershopapp.database.AppDatabase;
 import com.svalero.cybershopapp.domain.Client;
 
 import java.util.List;
+import java.util.Locale;
 
 public class MapsActivity extends AppCompatActivity {
 
@@ -46,9 +52,12 @@ public class MapsActivity extends AppCompatActivity {
             Point point =  Point.fromLngLat(client.getLongitude(), client.getLatitude());
             addMarker(point, client.getName());
         }
-        
-        Client lastClient = clients.get(clients.size() - 1);
-        setCameraPosition(Point.fromLngLat(lastClient.getLongitude(),lastClient.getLatitude()));
+        if (!clients.isEmpty()) {
+            Client lastClient = clients.get(clients.size() - 1);
+            setCameraPosition(Point.fromLngLat(lastClient.getLongitude(),lastClient.getLatitude()));
+        } else {
+            setCameraPosition(Point.fromLngLat(-0.8738521, 41.6396971));
+        }
     }
 
     private void initializePointManager() {
@@ -74,6 +83,4 @@ public class MapsActivity extends AppCompatActivity {
                 .build();
         mapView.getMapboxMap().setCamera(cameraPosition);
     }
-
-
 }
