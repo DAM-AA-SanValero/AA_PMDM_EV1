@@ -12,11 +12,13 @@ import com.svalero.cybershopapp.domain.Product;
 import com.svalero.cybershopapp.domain.Repair;
 import com.svalero.cybershopapp.util.LocalDateConverter;
 
-@Database(entities = {Client.class}, version = 1)
+@Database(entities = {Client.class, Product.class}, version = 1)
 @TypeConverters({LocalDateConverter.class})
 public abstract class AppDatabase extends RoomDatabase {
 
     public abstract ClientDao clientDao();
+
+    public abstract ProductDao productDao();
 
 
 

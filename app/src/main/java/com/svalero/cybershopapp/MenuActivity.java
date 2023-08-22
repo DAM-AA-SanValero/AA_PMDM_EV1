@@ -26,6 +26,16 @@ public class MenuActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void viewProducts (View view){
+        Intent intent = new Intent(this, ViewProductActivity.class);
+        startActivity(intent);
+    }
+
+    public void viewRepairs (View view){
+        Intent intent = new Intent(this, ViewClientActivity.class);
+        startActivity(intent);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.actonbar_preferencesmenu, menu);

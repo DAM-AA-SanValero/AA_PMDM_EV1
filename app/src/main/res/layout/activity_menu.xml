@@ -69,7 +69,7 @@
                 android:layout_weight="1"
                 android:clickable="true"
                 android:contentDescription="Products"
-                android:onClick="productView"
+                android:onClick="viewProducts"
                 android:src="@drawable/product"
                 app:srcCompat="@drawable/product" />
 
@@ -81,7 +81,7 @@
                 android:layout_weight="1"
                 android:clickable="true"
                 android:contentDescription="Repairs"
-                android:onClick="repairView"
+                android:onClick="viewRepairs"
                 android:src="@drawable/repair"
                 app:srcCompat="@drawable/repair" />
 

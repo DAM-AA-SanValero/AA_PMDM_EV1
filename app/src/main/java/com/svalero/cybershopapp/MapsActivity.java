@@ -1,17 +1,12 @@
 package com.svalero.cybershopapp;
 
-import static com.svalero.cybershopapp.database.Constants.DATABASE_NAME;
+import static com.svalero.cybershopapp.database.Constants.DATABASE_CLIENTS;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
 
-import android.content.res.Configuration;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 
 import com.mapbox.geojson.Point;
 import com.mapbox.maps.CameraOptions;
@@ -26,7 +21,6 @@ import com.svalero.cybershopapp.database.AppDatabase;
 import com.svalero.cybershopapp.domain.Client;
 
 import java.util.List;
-import java.util.Locale;
 
 public class MapsActivity extends AppCompatActivity {
 
@@ -41,7 +35,7 @@ public class MapsActivity extends AppCompatActivity {
         mapView = findViewById(R.id.clientMap);
         initializePointManager();
 
-        database = Room.databaseBuilder(this, AppDatabase.class, DATABASE_NAME)
+        database = Room.databaseBuilder(this, AppDatabase.class, DATABASE_CLIENTS)
                 .allowMainThreadQueries().build();
         List<Client> clients = database.clientDao().getAll();
         addClientsToMap(clients);

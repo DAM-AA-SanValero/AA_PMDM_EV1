@@ -26,7 +26,7 @@
             android:name=".MapsActivity"
             android:exported="false" />
         <activity
-            android:name=".UpdateDetailsActivity"
+            android:name=".UpdateClientActivity"
             android:exported="false" />
         <activity
             android:name=".ClientDetailsActivity"
@@ -36,6 +36,18 @@
             android:exported="false" />
         <activity
             android:name=".ViewClientActivity"
+            android:exported="false" />
+        <activity
+            android:name=".UpdateProductActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ProductDetailsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".RegisterProductActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ViewProductActivity"
             android:exported="false" />
         <activity
             android:name=".MenuActivity"

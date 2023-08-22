@@ -2,7 +2,7 @@ package com.svalero.cybershopapp;
 
 import static com.svalero.cybershopapp.R.string.client_registered;
 import static com.svalero.cybershopapp.R.string.required_data;
-import static com.svalero.cybershopapp.database.Constants.DATABASE_NAME;
+import static com.svalero.cybershopapp.database.Constants.DATABASE_CLIENTS;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,7 +25,6 @@ import android.widget.ScrollView;
 import android.widget.Toast;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.android.material.textfield.TextInputEditText;
 import com.mapbox.android.gestures.MoveGestureDetector;
 import com.mapbox.geojson.Point;
 import com.mapbox.maps.CameraOptions;
@@ -71,7 +70,7 @@ public class RegisterClientActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register_client);
+        setContentView(R.layout.activity_register_product);
 
         etName = findViewById(R.id.etName);
         etSurname = findViewById(R.id.etSurname);
@@ -133,12 +132,7 @@ public class RegisterClientActivity extends AppCompatActivity {
         datePickerDialog.show();
     }
 
-    private void openGallery() {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, getString(R.string.select_a_profile_image)), SELECT_PICTURE);
-    }
+
 
     public void addButton(View view) {
 
@@ -168,7 +162,7 @@ public class RegisterClientActivity extends AppCompatActivity {
 
 
 
-        final AppDatabase database = Room.databaseBuilder(this, AppDatabase.class, DATABASE_NAME)
+        final AppDatabase database = Room.databaseBuilder(this, AppDatabase.class, DATABASE_CLIENTS)
                 .allowMainThreadQueries().build();
         try {
             database.clientDao().insert(client);
@@ -236,7 +230,12 @@ public class RegisterClientActivity extends AppCompatActivity {
             image = uriToByteArray(filePath);
         }
     }
-
+    private void openGallery() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, getString(R.string.select_a_profile_image)), SELECT_PICTURE);
+    }
 
     private byte[] uriToByteArray(Uri uri) {
         try {

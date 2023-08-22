@@ -31,4 +31,15 @@
     <string name="isVIP">Si</string>
     <string name="isNotVip">No</string>
     <string name="UnknownRegistering">Desconocida</string>
+    <string name="type">Tipo de producto</string>
+    <string name="price">Precio</string>
+    <string name="inStock">Disponible</string>
+    <string name="stock">"Está disponible?: "</string>
+    <string name="origin">Origen del producto</string>
+    <string name="type_required">Tipo de producto requerido</string>
+    <string name="price_required">Precio reqeuerido</string>
+    <string name="origin_required">Origen requerido</string>
+    <string name="register_product">Registrar Producto</string>
+    <string name="product_registered">Producto Registrado</string>
+
 </resources>

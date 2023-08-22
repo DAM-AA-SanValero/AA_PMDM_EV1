@@ -1,6 +1,12 @@
 package com.svalero.cybershopapp;
 
-import static com.svalero.cybershopapp.database.Constants.DATABASE_CLIENTS;
+import static com.svalero.cybershopapp.database.Constants.DATABASE_PRODUCTS;
+
+import android.content.Intent;
+import android.content.res.Configuration;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -9,38 +15,33 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
-import android.content.Intent;
-import android.content.res.Configuration;
-import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
-
 import com.svalero.cybershopapp.adapters.ClientAdapter;
+import com.svalero.cybershopapp.adapters.ProductAdapter;
 import com.svalero.cybershopapp.database.AppDatabase;
-import com.svalero.cybershopapp.domain.Client;
+import com.svalero.cybershopapp.domain.Product;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class ViewClientActivity extends AppCompatActivity  {
+public class ViewProductActivity extends AppCompatActivity  {
 
-    public List<Client> clientList;
-    public ClientAdapter clientAdapter;
+    public List<Product> productList;
+    public ProductAdapter productAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_client);
+        setContentView(R.layout.activity_view_product);
 
-        clientList = new ArrayList<>();
+        productList = new ArrayList<>();
 
-        RecyclerView recyclerView = findViewById(R.id.clientList);
+        RecyclerView recyclerView = findViewById(R.id.productList);
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        clientAdapter = new ClientAdapter(clientList, this);
-        recyclerView.setAdapter(clientAdapter);
+        productAdapter = new ProductAdapter(productList, this);
+        recyclerView.setAdapter(productAdapter);
     }
 
 
@@ -48,16 +49,16 @@ public class ViewClientActivity extends AppCompatActivity  {
     protected void onResume() {
         super.onResume();
 
-        final AppDatabase database = Room.databaseBuilder(this, AppDatabase.class, DATABASE_CLIENTS)
+        final AppDatabase database = Room.databaseBuilder(this, AppDatabase.class, DATABASE_PRODUCTS)
                 .allowMainThreadQueries().build();
-        clientList.clear();
-        clientList.addAll(database.clientDao().getAll());
-        clientAdapter.notifyDataSetChanged();
+        productList.clear();
+        productList.addAll(database.productDao().getAll());
+        productAdapter.notifyDataSetChanged();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.actionbar_add, menu);
+        getMenuInflater().inflate(R.menu.actionbar_add_preferences, menu);
         return true;
     }
     @Override
@@ -65,15 +66,11 @@ public class ViewClientActivity extends AppCompatActivity  {
 
         int id = item.getItemId();
 
-        if (item.getItemId() == R.id.getMap) {
-            Intent intent = new Intent(this, MapsActivity.class);
-            startActivity(intent);
-            return true;
-        } else if (id == R.id.getPreferences){
+        if (id == R.id.getPreferences){
             showLanguageSelectionDialog();
             return true;
-        } else if (id == R.id.registerClient){
-            Intent intent = new Intent(this, RegisterClientActivity.class);
+        } else if (id == R.id.registerProduct){
+            Intent intent = new Intent(this, RegisterProductActivity.class);
             startActivity(intent);
             return true;
         }

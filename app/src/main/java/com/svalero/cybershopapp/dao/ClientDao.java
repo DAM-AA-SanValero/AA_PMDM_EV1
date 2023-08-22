@@ -20,7 +20,7 @@ public interface ClientDao {
     @Query("DELETE FROM client WHERE name = :name")
     void deleteByName(String name);
     @Query("UPDATE client SET name = :newName, surname = :newSurname, number = :newNumber WHERE name = :currentName")
-    void updateByName(String currentName, String newName, String newSurname, int newNumber);
+    void updateByName(String currentName, String newName, String newSurname, String newNumber);
 
     @Insert
     void insert(Client client);

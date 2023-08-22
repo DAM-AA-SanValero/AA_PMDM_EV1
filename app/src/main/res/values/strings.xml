@@ -30,4 +30,14 @@
     <string name="isVIP">Yes</string>
     <string name="isNotVip">No</string>
     <string name="UnknownRegistering">Unknown</string>
+    <string name="type">Type of product</string>
+    <string name="price">Price</string>
+    <string name="inStock">In Stock</string>
+    <string name="stock">"Is this product in Stock?: "</string>
+    <string name="origin">Origin of the Product</string>
+    <string name="type_required">Type required</string>
+    <string name="price_required">Price required</string>
+    <string name="origin_required">Origin required</string>
+    <string name="register_product">Register Product</string>
+    <string name="product_registered">Product Registered</string>
 </resources>

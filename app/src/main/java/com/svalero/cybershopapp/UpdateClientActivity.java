@@ -1,6 +1,6 @@
 package com.svalero.cybershopapp;
 
-import static com.svalero.cybershopapp.database.Constants.DATABASE_NAME;
+import static com.svalero.cybershopapp.database.Constants.DATABASE_CLIENTS;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -21,7 +21,7 @@ import com.svalero.cybershopapp.domain.Client;
 
 import java.util.Locale;
 
-public class UpdateDetailsActivity extends AppCompatActivity {
+public class UpdateClientActivity extends AppCompatActivity {
     private TextView tvName;
     private TextView tvSurname;
     private TextView tvNumber;
@@ -33,7 +33,7 @@ public class UpdateDetailsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_update_details);
+        setContentView(R.layout.activity_update_client);
 
         tvName = findViewById(R.id.etName);
         tvSurname = findViewById(R.id.etSurname);
@@ -47,7 +47,7 @@ public class UpdateDetailsActivity extends AppCompatActivity {
         String name = intent.getStringExtra("name");
         if (name == null) return;
 
-        database = Room.databaseBuilder(this, AppDatabase.class, DATABASE_NAME)
+        database = Room.databaseBuilder(this, AppDatabase.class, DATABASE_CLIENTS)
                 .allowMainThreadQueries().build();
 
         Client client = database.clientDao().getByName(name);
@@ -66,11 +66,7 @@ public class UpdateDetailsActivity extends AppCompatActivity {
         String currentName = originalName;
         String newName = etName.getText().toString();
         String newSurname = etSurname.getText().toString();
-        int newNumber = 0;
-        String numberText = etNumber.getText().toString();
-        if(!numberText.isEmpty()){
-            newNumber = Integer.parseInt(numberText);
-        }
+        String newNumber = etNumber.getText().toString();
 
         database.clientDao().updateByName(currentName, newName, newSurname, newNumber);
 

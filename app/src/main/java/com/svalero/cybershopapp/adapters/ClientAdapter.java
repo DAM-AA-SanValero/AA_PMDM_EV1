@@ -1,11 +1,9 @@
 package com.svalero.cybershopapp.adapters;
 
-import static com.svalero.cybershopapp.R.string.Are_you_sure_alert_dialog;
-import static com.svalero.cybershopapp.database.Constants.DATABASE_NAME;
+import static com.svalero.cybershopapp.database.Constants.DATABASE_CLIENTS;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +16,7 @@ import androidx.room.Room;
 
 import com.svalero.cybershopapp.ClientDetailsActivity;
 import com.svalero.cybershopapp.R;
-import com.svalero.cybershopapp.UpdateDetailsActivity;
+import com.svalero.cybershopapp.UpdateClientActivity;
 import com.svalero.cybershopapp.database.AppDatabase;
 import com.svalero.cybershopapp.domain.Client;
 
@@ -93,7 +91,7 @@ public class ClientAdapter extends RecyclerView.Adapter<ClientAdapter.ClientHold
     }
     public void updateClient(int position){
         Client client = clientList.get(position);
-        Intent intent = new Intent(context, UpdateDetailsActivity.class);
+        Intent intent = new Intent(context, UpdateClientActivity.class);
         intent.putExtra("name", client.getName());
         intent.putExtra("position", position);
         context.startActivity(intent);
@@ -103,10 +101,10 @@ public class ClientAdapter extends RecyclerView.Adapter<ClientAdapter.ClientHold
         builder.setMessage(R.string.Are_you_sure_alert_dialog)
                 .setTitle(R.string.delete_client)
                 .setPositiveButton(R.string.yes, (dialog, i) -> {
-                    final AppDatabase db = Room.databaseBuilder(context, AppDatabase.class, DATABASE_NAME)
+                    final AppDatabase db = Room.databaseBuilder(context, AppDatabase.class, DATABASE_CLIENTS)
                             .allowMainThreadQueries().build();
-                    Client task = clientList.get(position);
-                    db.clientDao().delete(task);
+                    Client client = clientList.get(position);
+                    db.clientDao().delete(client);
 
                     clientList.remove(position);
                     notifyItemRemoved(position);

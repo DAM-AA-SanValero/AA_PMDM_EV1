@@ -1,6 +1,6 @@
 package com.svalero.cybershopapp;
 
-import static com.svalero.cybershopapp.database.Constants.DATABASE_NAME;
+import static com.svalero.cybershopapp.database.Constants.DATABASE_CLIENTS;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -31,17 +31,11 @@ import com.svalero.cybershopapp.adapters.ClientAdapter;
 import com.svalero.cybershopapp.database.AppDatabase;
 import com.svalero.cybershopapp.domain.Client;
 
-import java.io.File;
 import java.sql.Date;
-import java.util.List;
 import java.util.Locale;
 
 public class ClientDetailsActivity extends AppCompatActivity {
-    private ClientAdapter clientAdapter;
-    private int clientPosition;
-
     private MapView mapView;
-
     private PointAnnotationManager pointAnnotationManager;
 
     @Override
@@ -52,12 +46,9 @@ public class ClientDetailsActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String name = intent.getStringExtra("name");
 
-
-
-
         if (name == null) return;
 
-        final AppDatabase database = Room.databaseBuilder(this, AppDatabase.class, DATABASE_NAME)
+        final AppDatabase database = Room.databaseBuilder(this, AppDatabase.class, DATABASE_CLIENTS)
                 .allowMainThreadQueries().build();
 
         Client client = database.clientDao().getByName(name);
