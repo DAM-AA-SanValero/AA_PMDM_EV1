@@ -26,4 +26,9 @@
     <string name="Welcome_to">Bienvenido/a a</string>
     <string name="select_a_profile_image">Selecciona una imagen</string>
     <string name="select_the_correct_location">Selecciona la ubicación correcta</string>
+    <string name="vip">¿Es este usuario VIP?: </string>
+    <string name="date">Fecha de registro: </string>
+    <string name="isVIP">Si</string>
+    <string name="isNotVip">No</string>
+    <string name="UnknownRegistering">Desconocida</string>
 </resources>

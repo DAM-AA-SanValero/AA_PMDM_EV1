@@ -3,21 +3,18 @@ package com.svalero.cybershopapp;
 import static com.svalero.cybershopapp.R.string.client_registered;
 import static com.svalero.cybershopapp.R.string.required_data;
 import static com.svalero.cybershopapp.database.Constants.DATABASE_NAME;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteConstraintException;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,8 +23,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.Toast;
-
-import com.bumptech.glide.Glide;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
@@ -48,7 +43,11 @@ import com.squareup.picasso.Picasso;
 import com.svalero.cybershopapp.database.AppDatabase;
 import com.svalero.cybershopapp.domain.Client;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.sql.Date;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
@@ -60,14 +59,14 @@ public class RegisterClientActivity extends AppCompatActivity {
     private EditText etName;
     private EditText etSurname;
     private EditText etNumber;
-    private TextInputEditText tilDate;
+    private EditText etDate;
     private CheckBox cbVIP;
     private MapView clientMap;
     private ScrollView scrollView;
     private Point point;
     private PointAnnotationManager pointAnnotationManager;
     private AppDatabase database;
-    private String imagePath;
+    private byte[] image;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +76,7 @@ public class RegisterClientActivity extends AppCompatActivity {
         etName = findViewById(R.id.etName);
         etSurname = findViewById(R.id.etSurname);
         etNumber = findViewById(R.id.etNumber);
-        tilDate = findViewById(R.id.tilDate);
+        etDate = findViewById(R.id.tilDate);
         cbVIP = findViewById(R.id.cbVip);
         clientMap = findViewById(R.id.clientMap);
         scrollView = findViewById(R.id.scrollView);
@@ -110,6 +109,28 @@ public class RegisterClientActivity extends AppCompatActivity {
         });
         initializePointManager();
 
+        etDate.setOnClickListener(V -> showDatePickerDialog());
+    }
+
+    private void showDatePickerDialog() {
+        final Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        // Crear el DatePickerDialog
+        DatePickerDialog datePickerDialog = new DatePickerDialog(
+                this,
+                (view, selectedYear, selectedMonth, selectedDay) -> {
+                    String selectedDate = selectedYear + "-" + (selectedMonth + 1) + "-" + selectedDay;
+                    etDate.setText(selectedDate);
+                },
+                year,
+                month,
+                day
+        );
+
+        datePickerDialog.show();
     }
 
     private void openGallery() {
@@ -121,14 +142,13 @@ public class RegisterClientActivity extends AppCompatActivity {
 
     public void addButton(View view) {
 
-        String image = imagePath;
         String name = etName.getText().toString();
         String surname = etSurname.getText().toString();
         String number = etNumber.getText().toString();
-        String date = tilDate.getText().toString();
-        boolean vip = cbVIP.isActivated();
+        String date = etDate.getText().toString();
+        boolean vip = cbVIP.isChecked();
 
-        if (name.isEmpty() || surname.isEmpty() || number.isEmpty()){
+        if (name.isEmpty() || surname.isEmpty() || number.isEmpty() || date.isEmpty()){
             Snackbar.make(this.getCurrentFocus(), required_data, BaseTransientBottomBar.LENGTH_LONG).show();
             return;
         }
@@ -137,8 +157,14 @@ public class RegisterClientActivity extends AppCompatActivity {
             Snackbar.make(this.getCurrentFocus(), R.string.select_the_correct_location, BaseTransientBottomBar.LENGTH_LONG).show();
             return;
         }
+        if (image == null) {
+            Snackbar.make(this.getCurrentFocus(), R.string.select_a_profile_image, BaseTransientBottomBar.LENGTH_LONG).show();
+            return;
+        }
 
-        client = new Client(name, surname, Integer.parseInt(number), date, false, point.latitude(), point.longitude(), imagePath);
+
+
+        client = new Client(name, surname, number, Date.valueOf(date), vip, point.latitude(), point.longitude(), image);
 
 
 
@@ -151,7 +177,7 @@ public class RegisterClientActivity extends AppCompatActivity {
             etName.setText("");
             etSurname.setText("");
             etNumber.setText("");
-            tilDate.setText("");
+            etDate.setText("");
             onBackPressed();
 
         } catch (SQLiteConstraintException sce){
@@ -207,22 +233,30 @@ public class RegisterClientActivity extends AppCompatActivity {
             Picasso.get()
                     .load(filePath)
                     .into(imageView);
-            imagePath = getPathFromUri(filePath);
+            image = uriToByteArray(filePath);
         }
     }
 
-    private String getPathFromUri(Uri uri) {
-        String path = null;
-        String[] projection = {MediaStore.Images.Media.DATA};
-        Cursor cursor = getContentResolver().query(uri, projection, null, null, null);
-        if (cursor != null) {
-            cursor.moveToFirst();
-            int columnIndex = cursor.getColumnIndex(projection[0]);
-            path = cursor.getString(columnIndex);
-            cursor.close();
+
+    private byte[] uriToByteArray(Uri uri) {
+        try {
+            InputStream inputStream = getContentResolver().openInputStream(uri);
+            ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
+
+            int bufferSize = 1024;
+            byte[] buffer = new byte[bufferSize];
+
+            int len;
+            while ((len = inputStream.read(buffer)) != -1) {
+                byteBuffer.write(buffer, 0, len);
+            }
+            return byteBuffer.toByteArray();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
         }
-        return path;
     }
+
 
 
     @Override

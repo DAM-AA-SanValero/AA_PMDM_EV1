@@ -1,14 +1,17 @@
 package com.svalero.cybershopapp.util;
 import androidx.room.TypeConverter;
-import java.time.LocalDate;
+
+import java.sql.Date;
+
 public class LocalDateConverter {
+
     @TypeConverter
-    public static LocalDate fromString(String value) {
-        return value == null ? null : LocalDate.parse(value);
+    public static Date toDate(Long timestamp) {
+        return timestamp == null ? null : new Date(timestamp);
     }
 
     @TypeConverter
-    public static String toString(LocalDate date) {
-        return date == null ? null : date.toString();
+    public static Long toTimestamp(Date date) {
+        return date == null ? null : date.getTime();
     }
 }

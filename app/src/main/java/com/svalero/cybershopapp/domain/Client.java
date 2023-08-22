@@ -2,6 +2,9 @@ package com.svalero.cybershopapp.domain;
 
 import androidx.room.*;
 
+
+import java.sql.Date;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,21 +22,19 @@ public class Client {
     @ColumnInfo
     private String surname;
     @ColumnInfo
-    private int number;
+    private String number;
     @ColumnInfo
-    private String register_date;
+    private Date register_date;
     @ColumnInfo
     private boolean vip;
-
     @ColumnInfo
     private double latitude;
     @ColumnInfo
     private double longitude;
-
     @ColumnInfo
-    private String imagePath;
+    private byte[] image;
 
-    public Client(String name, String surname, int number, String register_date, boolean vip, double latitude, double longitude, String imagePath) {
+    public Client(String name, String surname, String number, Date register_date, boolean vip, double latitude, double longitude, byte[] image) {
         this.name = name;
         this.surname = surname;
         this.number = number;
@@ -41,7 +42,7 @@ public class Client {
         this.vip = vip;
         this.latitude = latitude;
         this.longitude = longitude;
-        this.imagePath = imagePath;
+        this.image = image;
     }
 
     public long getId() {
@@ -68,19 +69,19 @@ public class Client {
         this.surname = surname;
     }
 
-    public int getNumber() {
+    public String getNumber() {
         return number;
     }
 
-    public void setNumber(int number) {
+    public void setNumber(String number) {
         this.number = number;
     }
 
-    public String getRegister_date() {
+    public Date getRegister_date() {
         return register_date;
     }
 
-    public void setRegister_date(String register_date) {
+    public void setRegister_date(Date register_date) {
         this.register_date = register_date;
     }
 
@@ -108,11 +109,11 @@ public class Client {
         this.longitude = longitude;
     }
 
-    public String getImagePath() {
-        return imagePath;
+    public byte[] getImage() {
+        return image;
     }
 
-    public void setImagePath(String imagePath) {
-        this.imagePath = imagePath;
+    public void setImage(byte[] image) {
+        this.image = image;
     }
 }
