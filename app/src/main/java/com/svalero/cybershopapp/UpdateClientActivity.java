@@ -23,6 +23,7 @@ import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.svalero.cybershopapp.database.AppDatabase;
 import com.svalero.cybershopapp.domain.Client;
+import com.svalero.cybershopapp.domain.Repair;
 
 import java.sql.Date;
 import java.text.ParseException;
@@ -89,6 +90,8 @@ public class UpdateClientActivity extends AppCompatActivity {
         tvNumber.setText(String.valueOf(client.getNumber()));
         tvDate.setText(String.valueOf(client.getRegister_date()));
         cbVip.setChecked(client.isVip());
+
+
     }
     public void updateButton(View view){
 
@@ -99,15 +102,20 @@ public class UpdateClientActivity extends AppCompatActivity {
         String newDate = etDate.getText().toString();
         boolean status = cbVip.isChecked();
 
+        Client currentClient = database.clientDao().getByName(currentName);
+
         String sqlDate = convertDateToSqlFormat(newDate);
 
-        if (sqlDate == null) {
-            Snackbar.make(etName, R.string.error_updating, BaseTransientBottomBar.LENGTH_LONG).show();
-            return;
+        Date dbDate;
+
+        if (sqlDate != null) {
+           dbDate = Date.valueOf(sqlDate);
+        } else {
+            dbDate = currentClient.getRegister_date();
         }
 
 
-        database.clientDao().updateByName(currentName, newName, newSurname, newNumber, Date.valueOf(sqlDate), status);
+        database.clientDao().updateByName(currentName, newName, newSurname, newNumber, dbDate, status);
 
         Client updatedClient = database.clientDao().getByName(currentName);
 
