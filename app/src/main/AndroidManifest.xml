@@ -50,6 +50,18 @@
             android:name=".ViewProductActivity"
             android:exported="false" />
         <activity
+            android:name=".UpdateRepairActivity"
+            android:exported="false" />
+        <activity
+            android:name=".RepairDetailsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".RegisterRepairActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ViewRepairActivity"
+            android:exported="false" />
+        <activity
             android:name=".MenuActivity"
             android:exported="true">
             <intent-filter>

@@ -7,27 +7,38 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 import com.svalero.cybershopapp.database.AppDatabase;
 import com.svalero.cybershopapp.domain.Client;
 
+import java.sql.Date;
+import java.text.ParseException;
+import java.util.Calendar;
 import java.util.Locale;
 
 public class UpdateClientActivity extends AppCompatActivity {
     private TextView tvName;
     private TextView tvSurname;
     private TextView tvNumber;
+    private TextView tvDate;
     private EditText etName;
     private EditText etSurname;
     private EditText etNumber;
+    private EditText etDate;
+    private CheckBox cbVip;
     private AppDatabase database;
     private String originalName;
     @Override
@@ -38,10 +49,26 @@ public class UpdateClientActivity extends AppCompatActivity {
         tvName = findViewById(R.id.etName);
         tvSurname = findViewById(R.id.etSurname);
         tvNumber = findViewById(R.id.etNumber);
+        tvDate = findViewById(R.id.tilDate);
+        cbVip = findViewById(R.id.cbVip);
 
         etName = findViewById(R.id.etName);
         etSurname = findViewById(R.id.etSurname);
         etNumber = findViewById(R.id.etNumber);
+        etDate = findViewById(R.id.tilDate);
+
+        etDate.setOnClickListener(v -> {
+            Calendar calendar = Calendar.getInstance();
+            int year = calendar.get(Calendar.YEAR);
+            int month = calendar.get(Calendar.MONTH);
+            int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+            DatePickerDialog datePickerDialog = new DatePickerDialog(UpdateClientActivity.this, (view, year1, month1, dayOfMonth) -> {
+                String date = dayOfMonth + "/" + (month1 + 1) + "/" + year1;
+                etDate.setText(date);
+            }, year, month, day);
+            datePickerDialog.show();
+        });
 
         Intent intent = getIntent();
         String name = intent.getStringExtra("name");
@@ -60,6 +87,8 @@ public class UpdateClientActivity extends AppCompatActivity {
         tvName.setText(client.getName());
         tvSurname.setText(client.getSurname());
         tvNumber.setText(String.valueOf(client.getNumber()));
+        tvDate.setText(String.valueOf(client.getRegister_date()));
+        cbVip.setChecked(client.isVip());
     }
     public void updateButton(View view){
 
@@ -67,8 +96,18 @@ public class UpdateClientActivity extends AppCompatActivity {
         String newName = etName.getText().toString();
         String newSurname = etSurname.getText().toString();
         String newNumber = etNumber.getText().toString();
+        String newDate = etDate.getText().toString();
+        boolean status = cbVip.isChecked();
 
-        database.clientDao().updateByName(currentName, newName, newSurname, newNumber);
+        String sqlDate = convertDateToSqlFormat(newDate);
+
+        if (sqlDate == null) {
+            Snackbar.make(etName, R.string.error_updating, BaseTransientBottomBar.LENGTH_LONG).show();
+            return;
+        }
+
+
+        database.clientDao().updateByName(currentName, newName, newSurname, newNumber, Date.valueOf(sqlDate), status);
 
         Client updatedClient = database.clientDao().getByName(currentName);
 
@@ -80,6 +119,17 @@ public class UpdateClientActivity extends AppCompatActivity {
     }
     public void cancelButton(View view){onBackPressed();}
 
+    private String convertDateToSqlFormat(String dateInOriginalFormat) {
+        try {
+            SimpleDateFormat originalFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+            SimpleDateFormat sqlFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+            java.util.Date date = originalFormat.parse(dateInOriginalFormat);
+            return sqlFormat.format(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.actonbar_preferencesmenu, menu);

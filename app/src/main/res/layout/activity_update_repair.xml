@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/teal_200"
     android:padding="20dp"
-    tools:context=".UpdateProductActivity">
+    tools:context=".UpdateRepairActivity">
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -16,7 +16,7 @@
         app:layout_constraintBottom_toBottomOf="parent">
 
         <Button
-            android:id="@+id/addProduct"
+            android:id="@+id/updateRepair"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="5dp"
@@ -46,31 +46,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:id="@+id/photoContact"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_gravity="center"
-            android:layout_marginBottom="40dp"
-            app:srcCompat="@drawable/product" />
-
         <EditText
-            android:id="@+id/etName"
+            android:id="@+id/etComponent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:ems="10"
-            android:hint="Name"
-            android:inputType="text"
-            android:minHeight="48dp" />
-
-        <EditText
-            android:id="@+id/etType"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:ems="10"
-            android:hint="Type"
+            android:hint="@string/component"
             android:inputType="text"
             android:minHeight="48dp" />
 
@@ -80,25 +62,53 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:ems="10"
-            android:hint="Price"
+            android:hint="@string/price"
             android:inputType="text"
             android:minHeight="48dp" />
 
         <EditText
-            android:id="@+id/etOrigin"
+            android:id="@+id/etAddress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:ems="10"
-            android:hint="Origin"
-            android:inputType="text"
+            android:hint="@string/address"
+            android:inputType="number"
             android:minHeight="48dp" />
 
-        <CheckBox
-            android:id="@+id/cbStock"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/shipDateInputLayout"
             android:layout_width="match_parent"
-            android:layout_height="73dp"
-            android:text="@string/inStock" />
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp">
+
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etShipDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#FFFFFF"
+                android:focusable="false"
+                android:hint="@string/shipment_date"
+                android:onClick="showDatePickerDialog" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/repairedDateInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp">
+
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etRepairDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#FFFFFF"
+                android:focusable="false"
+                android:hint="@string/repaireddate"
+                android:onClick="showDatePickerDialog" />
+        </com.google.android.material.textfield.TextInputLayout>
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

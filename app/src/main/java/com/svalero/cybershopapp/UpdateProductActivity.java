@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -27,9 +28,13 @@ public class UpdateProductActivity extends AppCompatActivity {
     private TextView tvName;
     private TextView tvType;
     private TextView tvPrice;
+
+    private TextView tvOrigin;
     private EditText etName;
     private EditText etType;
     private EditText etPrice;
+    private EditText etOrigin;
+    private CheckBox cbStock;
     private AppDatabase database;
     private String originalName;
     @Override
@@ -40,10 +45,13 @@ public class UpdateProductActivity extends AppCompatActivity {
         tvName = findViewById(R.id.etName);
         tvType = findViewById(R.id.etType);
         tvPrice = findViewById(R.id.etPrice);
+        tvOrigin = findViewById(R.id.etOrigin);
+        cbStock = findViewById(R.id.cbStock);
 
         etName = findViewById(R.id.etName);
         etType = findViewById(R.id.etType);
         etPrice = findViewById(R.id.etPrice);
+        etOrigin = findViewById(R.id.etOrigin);
 
         Intent intent = getIntent();
         String name = intent.getStringExtra("name");
@@ -62,6 +70,8 @@ public class UpdateProductActivity extends AppCompatActivity {
         tvName.setText(product.getName());
         tvType.setText(product.getType());
         tvPrice.setText(String.valueOf(product.getPrice()));
+        tvOrigin.setText(product.getOrigin());
+        cbStock.setChecked(product.isInStock());
     }
     public void updateButton(View view){
 
@@ -69,8 +79,10 @@ public class UpdateProductActivity extends AppCompatActivity {
         String newName = etName.getText().toString();
         String newType = etType.getText().toString();
         String newPrice = etPrice.getText().toString();
+        String newOrigin = etOrigin.getText().toString();
+        boolean isInStock = cbStock.isChecked();
 
-        database.productDao().updateByName(currentName, newName, newType, newPrice);
+        database.productDao().updateByName(currentName, newName, newType, newPrice, newOrigin, isInStock);
 
         Product updatedProduct = database.productDao().getByName(currentName);
 

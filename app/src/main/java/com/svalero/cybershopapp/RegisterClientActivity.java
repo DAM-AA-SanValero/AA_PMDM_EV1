@@ -70,7 +70,7 @@ public class RegisterClientActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register_product);
+        setContentView(R.layout.activity_register_client);
 
         etName = findViewById(R.id.etName);
         etSurname = findViewById(R.id.etSurname);
@@ -151,10 +151,7 @@ public class RegisterClientActivity extends AppCompatActivity {
             Snackbar.make(this.getCurrentFocus(), R.string.select_the_correct_location, BaseTransientBottomBar.LENGTH_LONG).show();
             return;
         }
-        if (image == null) {
-            Snackbar.make(this.getCurrentFocus(), R.string.select_a_profile_image, BaseTransientBottomBar.LENGTH_LONG).show();
-            return;
-        }
+
 
 
 

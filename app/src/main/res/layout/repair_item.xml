@@ -17,32 +17,32 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/productName"
+            android:id="@+id/repairComponent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="@string/name"
+            android:text="@string/component"
             android:textColor="#000000"
             android:textSize="25dp" />
 
         <TextView
-            android:id="@+id/productType"
+            android:id="@+id/repairAddress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:gravity="center"
-            android:text="@string/type"
+            android:text="@string/address"
             android:textColor="#020000"
             android:textSize="25dp" />
 
         <TextView
-            android:id="@+id/productInStock"
+            android:id="@+id/repairDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
             android:gravity="center"
-            android:text="@string/inStock"
+            android:text="@string/repairDate"
             android:textColor="#672828"
             android:textSize="18dp" />
 
@@ -69,7 +69,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
                 android:gravity="center"
-                android:onClick="updateClient"
+                android:onClick="updateRepair"
                 android:text="@string/update"
                 android:textSize="13sp" />
 
@@ -80,7 +80,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0"
                 android:gravity="center"
-                android:onClick="deleteClient"
+                android:onClick="deleteRepair"
                 android:text="@string/delete"
                 android:textSize="13sp" />
 

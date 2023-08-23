@@ -42,7 +42,14 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductH
     public void onBindViewHolder(ProductAdapter.ProductHolder holder, int position) {
         holder.productName.setText(productList.get(position).getName());
         holder.productType.setText(productList.get(position).getType());
-        holder.productStock.setText(productList.get(position).getPrice());
+
+        if(productList.get(position).isInStock()){
+            holder.productStock.setText(R.string.yes_it_is);
+        } else {
+            holder.productStock.setText(R.string.no_it_isnt);
+        }
+
+
     }
 
     @Override

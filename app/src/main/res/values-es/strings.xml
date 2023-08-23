@@ -36,10 +36,26 @@
     <string name="inStock">Disponible</string>
     <string name="stock">"Está disponible?: "</string>
     <string name="origin">Origen del producto</string>
-    <string name="type_required">Tipo de producto requerido</string>
-    <string name="price_required">Precio reqeuerido</string>
-    <string name="origin_required">Origen requerido</string>
+    <string name="type_required">Tipo de producto*</string>
+    <string name="price_required">Precio*</string>
+    <string name="origin_required">Origen</string>
     <string name="register_product">Registrar Producto</string>
     <string name="product_registered">Producto Registrado</string>
-
+    <string name="yes_it_is">Está disponible</string>
+    <string name="no_it_isnt">No está disponible</string>
+    <string name="repaired">Reparado</string>
+    <string name="not_repaired">No reparado</string>
+    <string name="delete_repair">Eliminar datos de reparación</string>
+    <string name="component">Componente</string>
+    <string name="address">Dirección de envío</string>
+    <string name="repairDate">Fecha de reparación</string>
+    <string name="register_repair">Registrar reparación</string>
+    <string name="component_required">Componente*</string>
+    <string name="address_required">Dirección de envío*</string>
+    <string name="shipment_date">Fecha de envío</string>
+    <string name="repaireddate">Fecha de reparación</string>
+    <string name="repair_registered">Datos de reparación registrados</string>
+    <string name="repair_date">Reparar fecha</string>
+    <string name="error_updating">Error mientras actualiza</string>
+    <string name="not_shipped">Aún no enviado</string>
 </resources>

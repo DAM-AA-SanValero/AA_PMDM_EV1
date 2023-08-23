@@ -32,7 +32,7 @@ public class MenuActivity extends AppCompatActivity {
     }
 
     public void viewRepairs (View view){
-        Intent intent = new Intent(this, ViewClientActivity.class);
+        Intent intent = new Intent(this, ViewRepairActivity.class);
         startActivity(intent);
     }
 

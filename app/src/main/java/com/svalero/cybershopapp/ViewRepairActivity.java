@@ -1,6 +1,6 @@
 package com.svalero.cybershopapp;
 
-import static com.svalero.cybershopapp.database.Constants.DATABASE_PRODUCTS;
+import static com.svalero.cybershopapp.database.Constants.DATABASE_REPAIRS;
 
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -16,31 +16,32 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
 import com.svalero.cybershopapp.adapters.ProductAdapter;
+import com.svalero.cybershopapp.adapters.RepairAdapter;
 import com.svalero.cybershopapp.database.AppDatabase;
-import com.svalero.cybershopapp.domain.Product;
+import com.svalero.cybershopapp.domain.Repair;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class ViewProductActivity extends AppCompatActivity  {
+public class ViewRepairActivity extends AppCompatActivity  {
 
-    public List<Product> productList;
-    public ProductAdapter productAdapter;
+    public List<Repair> repairList;
+    public RepairAdapter repairAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_product);
+        setContentView(R.layout.activity_view_repair);
 
-        productList = new ArrayList<>();
+        repairList = new ArrayList<>();
 
-        RecyclerView recyclerView = findViewById(R.id.productList);
+        RecyclerView recyclerView = findViewById(R.id.repairList);
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        productAdapter = new ProductAdapter(productList, this);
-        recyclerView.setAdapter(productAdapter);
+        repairAdapter = new RepairAdapter(repairList, this);
+        recyclerView.setAdapter(repairAdapter);
     }
 
 
@@ -48,16 +49,16 @@ public class ViewProductActivity extends AppCompatActivity  {
     protected void onResume() {
         super.onResume();
 
-        final AppDatabase database = Room.databaseBuilder(this, AppDatabase.class, DATABASE_PRODUCTS)
+        final AppDatabase database = Room.databaseBuilder(this, AppDatabase.class, DATABASE_REPAIRS)
                 .allowMainThreadQueries().build();
-        productList.clear();
-        productList.addAll(database.productDao().getAll());
-        productAdapter.notifyDataSetChanged();
+        repairList.clear();
+        repairList.addAll(database.repairDao().getAll());
+        repairAdapter.notifyDataSetChanged();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.actionbar_addproduct_preferences, menu);
+        getMenuInflater().inflate(R.menu.actionbar_addrepair_preferences, menu);
         return true;
     }
     @Override
@@ -68,8 +69,8 @@ public class ViewProductActivity extends AppCompatActivity  {
         if (id == R.id.getPreferences){
             showLanguageSelectionDialog();
             return true;
-        } else if (id == R.id.registerProduct){
-            Intent intent = new Intent(this, RegisterProductActivity.class);
+        } else if (id == R.id.registerRepair){
+            Intent intent = new Intent(this, RegisterRepairActivity.class);
             startActivity(intent);
             return true;
         }

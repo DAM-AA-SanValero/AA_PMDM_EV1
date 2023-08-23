@@ -3,7 +3,7 @@ import androidx.room.TypeConverter;
 
 import java.sql.Date;
 
-public class LocalDateConverter {
+public class DateConverter {
 
     @TypeConverter
     public static Date toDate(Long timestamp) {
