@@ -28,3 +28,7 @@ También se ha seguido una pauta importante durante la realización del proyecto
 mergeadas a la rama principal master. A continuación incluyo dicho enlace:
 https://github.com/Joserra2304/AA_PMDM_EV1.git
 
+Finalmente, en el apartado de Github de **Issues** he añadido algun problema que sucede en la APP, 
+como por ejemplo, no aparece en el dispositivo movil (físico) no abre la lista de clientes, 
+y sucede lo mismo con productos, si manipulas el registro añadiendo alguna imagen (quiza por exceso de tamaño),
+la lista de reparaciones se abre correctamente.
