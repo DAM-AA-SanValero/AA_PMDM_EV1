@@ -53,19 +53,20 @@ import java.util.Locale;
 public class RegisterClientActivity extends AppCompatActivity {
 
     private Client client;
-    private ImageView imageView;
+
     private static final int SELECT_PICTURE = 100;
-    private EditText etName;
-    private EditText etSurname;
-    private EditText etNumber;
-    private EditText etDate;
-    private CheckBox cbVIP;
-    private MapView clientMap;
+    private byte[] image;
+
     private ScrollView scrollView;
+    private ImageView imageView;
+    private EditText etName, etSurname, etNumber, etDate;
+    private CheckBox cbVIP;
+
+    private MapView clientMap;
     private Point point;
     private PointAnnotationManager pointAnnotationManager;
+
     private AppDatabase database;
-    private byte[] image;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,39 +111,15 @@ public class RegisterClientActivity extends AppCompatActivity {
 
         etDate.setOnClickListener(V -> showDatePickerDialog());
     }
-
-    private void showDatePickerDialog() {
-        final Calendar calendar = Calendar.getInstance();
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH);
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
-
-        // Crear el DatePickerDialog
-        DatePickerDialog datePickerDialog = new DatePickerDialog(
-                this,
-                (view, selectedYear, selectedMonth, selectedDay) -> {
-                    String selectedDate = selectedYear + "-" + (selectedMonth + 1) + "-" + selectedDay;
-                    etDate.setText(selectedDate);
-                },
-                year,
-                month,
-                day
-        );
-
-        datePickerDialog.show();
-    }
-
-
-
     public void addButton(View view) {
 
         String name = etName.getText().toString();
         String surname = etSurname.getText().toString();
-        String number = etNumber.getText().toString();
+        int number = Integer.parseInt(etNumber.getText().toString());
         String date = etDate.getText().toString();
         boolean vip = cbVIP.isChecked();
 
-        if (name.isEmpty() || surname.isEmpty() || number.isEmpty() || date.isEmpty()){
+        if (name.isEmpty() || surname.isEmpty() || number == 0 || date.isEmpty()){
             Snackbar.make(this.getCurrentFocus(), required_data, BaseTransientBottomBar.LENGTH_LONG).show();
             return;
         }
@@ -152,12 +129,7 @@ public class RegisterClientActivity extends AppCompatActivity {
             return;
         }
 
-
-
-
         client = new Client(name, surname, number, Date.valueOf(date), vip, point.latitude(), point.longitude(), image);
-
-
 
         final AppDatabase database = Room.databaseBuilder(this, AppDatabase.class, DATABASE_CLIENTS)
                 .allowMainThreadQueries().build();
@@ -181,6 +153,29 @@ public class RegisterClientActivity extends AppCompatActivity {
         onBackPressed();
     }
 
+
+    //Date Picker para fecha de registro
+    private void showDatePickerDialog() {
+        final Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(
+                this,
+                (view, selectedYear, selectedMonth, selectedDay) -> {
+                    String selectedDate = selectedYear + "-" + (selectedMonth + 1) + "-" + selectedDay;
+                    etDate.setText(selectedDate);
+                },
+                year,
+                month,
+                day
+        );
+
+        datePickerDialog.show();
+    }
+
+    //MAPA
     private void addMarker(Point point) {
         PointAnnotationOptions pointAnnotationOptions = new PointAnnotationOptions()
                 .withPoint(point)
@@ -216,6 +211,8 @@ public class RegisterClientActivity extends AppCompatActivity {
     private void removeAllMarkers(){
         pointAnnotationManager.deleteAll();
     }
+
+    //IMAGEN
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -253,7 +250,7 @@ public class RegisterClientActivity extends AppCompatActivity {
         }
     }
 
-
+//ACTION BAR
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -273,10 +270,11 @@ public class RegisterClientActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    //IDIOMA
     private void showLanguageSelectionDialog() {
-        String[] languages = {"Español", "English"};
+        String[] languages = {getString(R.string.Spanish), getString(R.string.English)};
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Select language");
+        builder.setTitle(R.string.selectLanguage);
         builder.setItems(languages, (dialog, which) ->{
             switch (which){
                 case 0:

@@ -51,7 +51,7 @@ public class RepairDetailsActivity extends AppCompatActivity {
         TextView tvRepairedDate = findViewById(R.id.etRepairDate);
 
         tvComponent.setText(repair.getComponent());
-        tvPrice.setText(repair.getPrice());
+        tvPrice.setText(repair.getPrice() + "€");
         tvShipmentAddress.setText(repair.getShippingAddress());
         Date shipmentDate = repair.getShipmentDate();
         Date repairedDate = repair.getRepairedDate();
@@ -79,10 +79,9 @@ public class RepairDetailsActivity extends AppCompatActivity {
         if(repairedDate.equals("01/01/0001")){
             tvRepairedDate.setText(R.string.not_repaired);
         }
-
-
-
     }
+
+    //ACTION BAR
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.actonbar_preferencesmenu, menu);
@@ -100,10 +99,11 @@ public class RepairDetailsActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    //IDIOMA
     private void showLanguageSelectionDialog() {
-        String[] languages = {"Español", "English"};
+        String[] languages = {getString(R.string.Spanish), getString(R.string.English)};
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Select language");
+        builder.setTitle(R.string.selectLanguage);
         builder.setItems(languages, (dialog, which) ->{
             switch (which){
                 case 0:

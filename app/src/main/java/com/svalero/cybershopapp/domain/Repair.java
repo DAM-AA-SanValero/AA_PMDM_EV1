@@ -24,7 +24,7 @@ public class Repair {
     private String component;
 
     @ColumnInfo
-    private String price;
+    private double price;
 
     @ColumnInfo
     private String shippingAddress;
@@ -35,7 +35,8 @@ public class Repair {
     @ColumnInfo
     private Date repairedDate;
 
-    public Repair(String component, String price, String shippingAddress, Date shipmentDate, Date repairedDate) {
+    public Repair(String component, double price, String shippingAddress,
+                  Date shipmentDate, Date repairedDate) {
         this.component = component;
         this.price = price;
         this.shippingAddress = shippingAddress;
@@ -51,11 +52,11 @@ public class Repair {
         this.component = component;
     }
 
-    public String getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 

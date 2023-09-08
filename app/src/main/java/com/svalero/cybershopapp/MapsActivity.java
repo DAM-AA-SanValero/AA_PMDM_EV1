@@ -41,6 +41,7 @@ public class MapsActivity extends AppCompatActivity {
         addClientsToMap(clients);
     }
 
+    //MAPA
     private void addClientsToMap(List<Client> clients) {
         for(Client client : clients){
             Point point =  Point.fromLngLat(client.getLongitude(), client.getLatitude());
@@ -64,7 +65,8 @@ public class MapsActivity extends AppCompatActivity {
         PointAnnotationOptions pointAnnotationOptions = new PointAnnotationOptions()
                 .withPoint(point)
                 .withTextField(name)
-                .withIconImage(BitmapFactory.decodeResource(getResources(), R.mipmap.purple_marker_foreground));
+                .withIconImage(BitmapFactory.decodeResource(getResources(),
+                        R.mipmap.purple_marker_foreground));
         pointAnnotationManager.create(pointAnnotationOptions);
     }
 

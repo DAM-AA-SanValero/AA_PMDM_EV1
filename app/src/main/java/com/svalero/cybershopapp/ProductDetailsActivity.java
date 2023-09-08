@@ -49,15 +49,14 @@ public class ProductDetailsActivity extends AppCompatActivity {
 
         if (name == null) return;
 
-        final AppDatabase database = Room.databaseBuilder(this, AppDatabase.class, DATABASE_PRODUCTS)
+        final AppDatabase database = Room.databaseBuilder(
+                this, AppDatabase.class, DATABASE_PRODUCTS)
                 .allowMainThreadQueries().build();
 
         Product product = database.productDao().getByName(name);
 
         fillData(product);
-
     }
-
     private void fillData(Product product) {
 
         ImageView imageView = findViewById(R.id.productPhoto);
@@ -69,7 +68,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
 
         tvName.setText(product.getName());
         tvType.setText(product.getType());
-        tvPrice.setText(product.getPrice());
+        tvPrice.setText(product.getPrice() + "€");
         tvOrigin.setText(product.getOrigin());
 
         boolean inStock = product.isInStock();
@@ -84,6 +83,9 @@ public class ProductDetailsActivity extends AppCompatActivity {
             imageView.setImageResource(R.drawable.product);
         }
     }
+
+    //ACTION BAR
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.actonbar_preferencesmenu, menu);
@@ -101,10 +103,12 @@ public class ProductDetailsActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    //IDIOMA
+
     private void showLanguageSelectionDialog() {
-        String[] languages = {"Español", "English"};
+        String[] languages = {getString(R.string.Spanish), getString(R.string.English)};
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Select language");
+        builder.setTitle(R.string.selectLanguage);
         builder.setItems(languages, (dialog, which) ->{
             switch (which){
                 case 0:

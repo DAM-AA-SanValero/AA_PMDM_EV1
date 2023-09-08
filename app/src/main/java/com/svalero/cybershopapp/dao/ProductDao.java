@@ -20,9 +20,9 @@ public interface ProductDao {
     @Query("DELETE FROM product WHERE name = :name")
     void deleteByName(String name);
     @Query("UPDATE product SET name = :newName, type = :newType, price = :newPrice," +
-            " origin = :newOrigin, inStock = :availability WHERE name = :currentName")
-    void updateByName(String currentName, String newName, String newType, String newPrice,
-                      String newOrigin, boolean availability);
+            " origin = :newOrigin, inStock = :availability, image = :newImage WHERE name = :currentName")
+    void updateByName(String currentName, String newName, String newType, double newPrice,
+                      String newOrigin, boolean availability, byte[] newImage);
     @Insert
     void insert(Product product);
     @Delete

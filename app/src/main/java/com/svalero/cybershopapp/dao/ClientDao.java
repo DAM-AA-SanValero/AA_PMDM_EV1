@@ -21,9 +21,9 @@ public interface ClientDao {
     @Query("DELETE FROM client WHERE name = :name")
     void deleteByName(String name);
     @Query("UPDATE client SET name = :newName, surname = :newSurname, number = :newNumber," +
-            "register_date = :newDate,vip = :status WHERE name = :currentName")
-    void updateByName(String currentName, String newName, String newSurname, String newNumber
-            , Date newDate, boolean status);
+            "register_date = :newDate,vip = :status, image = :newImage  WHERE name = :currentName")
+    void updateByName(String currentName, String newName, String newSurname, int newNumber
+            , Date newDate, boolean status, byte[] newImage);
 
     @Insert
     void insert(Client client);

@@ -35,6 +35,7 @@ import java.sql.Date;
 import java.util.Locale;
 
 public class ClientDetailsActivity extends AppCompatActivity {
+
     private MapView mapView;
     private PointAnnotationManager pointAnnotationManager;
 
@@ -48,8 +49,8 @@ public class ClientDetailsActivity extends AppCompatActivity {
 
         if (name == null) return;
 
-        final AppDatabase database = Room.databaseBuilder(this, AppDatabase.class, DATABASE_CLIENTS)
-                .allowMainThreadQueries().build();
+        final AppDatabase database = Room.databaseBuilder(this,
+                        AppDatabase.class, DATABASE_CLIENTS).allowMainThreadQueries().build();
 
         Client client = database.clientDao().getByName(name);
 
@@ -86,8 +87,6 @@ public class ClientDetailsActivity extends AppCompatActivity {
         boolean isVip = client.isVip();
         tvStatus.setText(isVip ? getString(R.string.isVIP) : getString(R.string.isNotVip));
 
-
-
         byte[] image = client.getImage();
 
         if (image != null && image.length > 0) {
@@ -97,6 +96,46 @@ public class ClientDetailsActivity extends AppCompatActivity {
             imageView.setImageResource(R.drawable.person);
         }
     }
+
+    //MAPA
+    private void addClientToMap(Client client) {
+        Point clientPoint = Point.fromLngLat(client.getLongitude(), client.getLatitude());
+        addMarker(clientPoint, client.getName());
+
+        if (clientPoint != null) {
+            setCameraPosition(clientPoint);
+        } else {
+            setCameraPosition(Point.fromLngLat(-0.8738521, 41.6396971));
+        }
+    }
+
+    private void initializePointManager() {
+        AnnotationPlugin annotationPlugin = AnnotationPluginImplKt.getAnnotations(mapView);
+        AnnotationConfig annotationConfig = new AnnotationConfig();
+        pointAnnotationManager = PointAnnotationManagerKt.createPointAnnotationManager(
+                annotationPlugin, annotationConfig);
+    }
+
+    private void addMarker(Point point, String name) {
+        PointAnnotationOptions pointAnnotationOptions = new PointAnnotationOptions()
+                .withPoint(point)
+                .withTextField(name)
+                .withIconImage(BitmapFactory.decodeResource(getResources(),
+                        R.mipmap.purple_marker_foreground));
+        pointAnnotationManager.create(pointAnnotationOptions);
+    }
+
+    private void setCameraPosition(Point point) {
+        CameraOptions cameraPosition = new CameraOptions.Builder()
+                .center(point)
+                .pitch(20.0)
+                .zoom(15.5)
+                .bearing(-17.6)
+                .build();
+        mapView.getMapboxMap().setCamera(cameraPosition);
+    }
+
+    //ACTION BAR
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.actonbar_mainmenu, menu);
@@ -118,8 +157,9 @@ public class ClientDetailsActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    //CAMBIO DE IDIOMA EN ACTION BAR
     private void showLanguageSelectionDialog() {
-        String[] languages = {"Español", "English"};
+        String[] languages = {getString(R.string.Spanish),getString(R.string.English)};
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Select language");
         builder.setItems(languages, (dialog, which) ->{
@@ -145,38 +185,4 @@ public class ClientDetailsActivity extends AppCompatActivity {
         recreate();
     }
 
-    private void addClientToMap(Client client) {
-        Point clientPoint = Point.fromLngLat(client.getLongitude(), client.getLatitude());
-        addMarker(clientPoint, client.getName());
-
-        if (clientPoint != null) {
-            setCameraPosition(clientPoint);
-        } else {
-            setCameraPosition(Point.fromLngLat(-0.8738521, 41.6396971));
-        }
-    }
-
-    private void initializePointManager() {
-        AnnotationPlugin annotationPlugin = AnnotationPluginImplKt.getAnnotations(mapView);
-        AnnotationConfig annotationConfig = new AnnotationConfig();
-        pointAnnotationManager = PointAnnotationManagerKt.createPointAnnotationManager(annotationPlugin, annotationConfig);
-    }
-
-    private void addMarker(Point point, String name) {
-        PointAnnotationOptions pointAnnotationOptions = new PointAnnotationOptions()
-                .withPoint(point)
-                .withTextField(name)
-                .withIconImage(BitmapFactory.decodeResource(getResources(), R.mipmap.purple_marker_foreground));
-        pointAnnotationManager.create(pointAnnotationOptions);
-    }
-
-    private void setCameraPosition(Point point) {
-        CameraOptions cameraPosition = new CameraOptions.Builder()
-                .center(point)
-                .pitch(20.0)
-                .zoom(15.5)
-                .bearing(-17.6)
-                .build();
-        mapView.getMapboxMap().setCamera(cameraPosition);
-    }
 }

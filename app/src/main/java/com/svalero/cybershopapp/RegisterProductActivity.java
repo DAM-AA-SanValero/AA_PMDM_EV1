@@ -33,15 +33,15 @@ import java.util.Locale;
 public class RegisterProductActivity extends AppCompatActivity {
 
     private Product product;
-    private ImageView imageView;
+
     private static final int SELECT_PICTURE = 100;
-    private EditText etName;
-    private EditText etType;
-    private EditText etPrice;
-    private EditText etOrigin;
-    private CheckBox cbStock;
-    private AppDatabase database;
     private byte[] image;
+
+    private ImageView imageView;
+    private EditText etName, etType, etPrice, etOrigin;
+    private CheckBox cbStock;
+
+    private AppDatabase database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,11 +62,11 @@ public class RegisterProductActivity extends AppCompatActivity {
 
         String name = etName.getText().toString();
         String type = etType.getText().toString();
-        String price = etPrice.getText().toString();
+        double price = Double.parseDouble(etPrice.getText().toString());
         String origin = etOrigin.getText().toString();
         boolean inStock = cbStock.isChecked();
 
-        if (name.isEmpty() || type.isEmpty() || price.isEmpty()){
+        if (name.isEmpty() || type.isEmpty() || price == 0.0){
             Snackbar.make(this.getCurrentFocus(), required_data, BaseTransientBottomBar.LENGTH_LONG).show();
             return;
         }
@@ -101,53 +101,7 @@ public class RegisterProductActivity extends AppCompatActivity {
         onBackPressed();
     }
 
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.actonbar_preferencesmenu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-
-        int id = item.getItemId();
-
-         if (id == R.id.getPreferences){
-            showLanguageSelectionDialog();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    private void showLanguageSelectionDialog() {
-        String[] languages = {"Español", "English"};
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Select language");
-        builder.setItems(languages, (dialog, which) ->{
-            switch (which){
-                case 0:
-                    setLocale("es");
-                    break;
-                case 1:
-                    setLocale("en");
-                    break;
-            }
-        });
-        builder.create().show();
-    }
-
-    private void setLocale(String lang) {
-        Locale locale = new Locale(lang);
-        Locale.setDefault(locale);
-        Configuration config = new Configuration();
-        config.setLocale(locale);
-        getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources()
-                .getDisplayMetrics());
-        recreate();
-    }
-
+    //IMAGEN
     private void openGallery() {
         Intent intent = new Intent();
         intent.setType("image/*");
@@ -183,7 +137,53 @@ public class RegisterProductActivity extends AppCompatActivity {
         }
     }
 
+    //ACTION BAR
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.actonbar_preferencesmenu, menu);
+        return true;
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        int id = item.getItemId();
+
+         if (id == R.id.getPreferences){
+            showLanguageSelectionDialog();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    //IDIOMA
+
+    private void showLanguageSelectionDialog() {
+        String[] languages = {getString(R.string.Spanish), getString(R.string.English)};
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.selectLanguage);
+        builder.setItems(languages, (dialog, which) ->{
+            switch (which){
+                case 0:
+                    setLocale("es");
+                    break;
+                case 1:
+                    setLocale("en");
+                    break;
+            }
+        });
+        builder.create().show();
+    }
+
+    private void setLocale(String lang) {
+        Locale locale = new Locale(lang);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.setLocale(locale);
+        getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources()
+                .getDisplayMetrics());
+        recreate();
+    }
 }
 
 

@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -42,17 +43,16 @@ public class RepairAdapter extends RecyclerView.Adapter<RepairAdapter.RepairHold
     }
 
     @Override
-    public RepairAdapter.RepairHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public RepairHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.repair_item, parent, false);
-        return new RepairAdapter.RepairHolder(view);
+        return new RepairHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RepairAdapter.RepairHolder holder, int position) {
+    public void onBindViewHolder(RepairHolder holder, int position) {
         holder.repairComponent.setText(repairList.get(position).getComponent());
         holder.repairAddress.setText(repairList.get(position).getShippingAddress());
-
 
         Date repairedDate = repairList.get(position).getRepairedDate();
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
@@ -67,7 +67,6 @@ public class RepairAdapter extends RecyclerView.Adapter<RepairAdapter.RepairHold
             holder.repairedDate.setText(context.getString(R.string.not_repaired));
         }
     }
-
     @Override
     public int getItemCount() {
         return repairList.size();
@@ -95,7 +94,6 @@ public class RepairAdapter extends RecyclerView.Adapter<RepairAdapter.RepairHold
             updateButton = view.findViewById(R.id.updateButton);
             deleteButton = view.findViewById(R.id.deleteButton);
 
-
             detailsButton.setOnClickListener(v -> seeRepair(getAdapterPosition()));
             updateButton.setOnClickListener(v -> updateRepair(getAdapterPosition()));
             deleteButton.setOnClickListener(v -> deleteRepair(getAdapterPosition()));
@@ -108,8 +106,6 @@ public class RepairAdapter extends RecyclerView.Adapter<RepairAdapter.RepairHold
         Intent intent = new Intent(context, RepairDetailsActivity.class);
         intent.putExtra("component", repair.getComponent());
         context.startActivity(intent);
-
-
     }
     public void updateRepair(int position){
         Repair repair = repairList.get(position);
@@ -127,13 +123,12 @@ public class RepairAdapter extends RecyclerView.Adapter<RepairAdapter.RepairHold
                             .allowMainThreadQueries().build();
                     Repair repair = repairList.get(position);
                     db.repairDao().delete(repair);
+                    Toast.makeText(context, R.string.repairDeleted, Toast.LENGTH_LONG).show();
 
                     repairList.remove(position);
                     notifyItemRemoved(position);
-                })
-                .setNegativeButton(R.string.no, (dialog, id) -> dialog.dismiss());
+                }).setNegativeButton(R.string.no, (dialog, id) -> dialog.dismiss());
         AlertDialog dialog = builder.create();
         dialog.show();
-
     }
 }

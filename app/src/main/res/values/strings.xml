@@ -33,7 +33,7 @@
     <string name="type">Type of product</string>
     <string name="price">Price</string>
     <string name="inStock">In Stock</string>
-    <string name="stock">"Is this product in Stock?: "</string>
+    <string name="stock">"Is this product in Stock?"</string>
     <string name="origin">Origin of the Product</string>
     <string name="type_required">Type*</string>
     <string name="price_required">Price*</string>
@@ -51,10 +51,19 @@
     <string name="register_repair">Register Repair</string>
     <string name="component_required">Component*</string>
     <string name="address_required">Shipment Address*</string>
-    <string name="shipment_date">Shipment Date</string>
+    <string name="shipment_date">Shipment Date:</string>
     <string name="repaireddate">Repaired Date</string>
     <string name="repair_registered">Repair registered</string>
-    <string name="repair_date">Repair Date</string>
+    <string name="repair_date">Repair Date:</string>
     <string name="error_updating">Error while updating</string>
     <string name="not_shipped">No shipped yet</string>
+    <string name="Spanish">Spanish</string>
+    <string name="English">English</string>
+    <string name="selectLanguage">Select language</string>
+    <string name="clientUpdated">Client updated</string>
+    <string name="clientDeleted">Client deleted</string>
+    <string name="productDeleted">Product deleted</string>
+    <string name="repairDeleted">Repair deleted</string>
+    <string name="productUpdated">Product updated</string>
+    <string name="repairUpdated">Repair updated</string>
 </resources>
