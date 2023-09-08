@@ -52,6 +52,7 @@ public class ViewClientActivity extends AppCompatActivity  {
                 .allowMainThreadQueries().build();
         clientList.clear();
         clientList.addAll(database.clientDao().getAll());
+
         clientAdapter.notifyDataSetChanged();
     }
 
