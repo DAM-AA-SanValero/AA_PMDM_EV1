@@ -4,15 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MapsActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <com.mapbox.maps.MapView
+        android:id="@+id/clientMap"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:mapbox_cameraTargetLng="-0.8738521"
+        app:mapbox_cameraTargetLat="41.6396971"
+        app:mapbox_cameraZoom="10.0">
+    </com.mapbox.maps.MapView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
