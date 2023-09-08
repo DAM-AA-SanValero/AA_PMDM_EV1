@@ -33,11 +33,9 @@ import java.util.Locale;
 public class RegisterRepairActivity extends AppCompatActivity {
 
     private Repair repair;
-    private EditText etComponent;
-    private EditText etPrice;
-    private EditText etShipmentAddress;
-    private EditText etShipmentDate;
-    private EditText etRepairedDate;
+
+    private EditText etComponent, etPrice, etShipmentAddress, etShipmentDate, etRepairedDate;
+
     private AppDatabase database;
 
     @Override
@@ -55,7 +53,54 @@ public class RegisterRepairActivity extends AppCompatActivity {
         etRepairedDate.setOnClickListener(V -> showDatePickerDialog_repairDate());
 
     }
+    public void addButton(View view) {
 
+        String component = etComponent.getText().toString();
+        double price = Double.parseDouble(etPrice.getText().toString());
+        String shipmentAddress = etShipmentAddress.getText().toString();
+        String shipmentDate = etShipmentDate.getText().toString();
+        String repairedDate = etRepairedDate.getText().toString();
+
+        if (component.isEmpty() || price == 0.0 || shipmentAddress.isEmpty()) {
+            Snackbar.make(this.getCurrentFocus(), required_data, BaseTransientBottomBar.LENGTH_LONG).show();
+            return;
+        }
+
+        if (shipmentDate.isEmpty()){
+            shipmentDate = "0000-01-01";
+        }
+
+        if (repairedDate.isEmpty()){
+            repairedDate = "0000-01-01";
+        }
+
+        repair = new Repair(component, price, shipmentAddress, Date.valueOf(shipmentDate), Date.valueOf(repairedDate));
+
+
+        final AppDatabase database = Room.databaseBuilder(this, AppDatabase.class, DATABASE_REPAIRS)
+                .allowMainThreadQueries().build();
+        try {
+            database.repairDao().insert(repair);
+
+            Toast.makeText(this, R.string.repair_registered, Toast.LENGTH_LONG).show();
+            etComponent.setText("");
+            etPrice.setText("");
+            etShipmentAddress.setText("");
+            etShipmentDate.setText("");
+            etRepairedDate.setText("");
+            onBackPressed();
+
+        } catch (SQLiteConstraintException sce) {
+            Snackbar.make(etComponent, R.string.error_registering, BaseTransientBottomBar.LENGTH_LONG).show();
+        }
+        database.close();
+    }
+
+    public void cancelButton(View view) {
+        onBackPressed();
+    }
+
+    //Selector de FECHAS para la fecha de envio y reparación
     private void showDatePickerDialog_shipDate() {
         final Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
@@ -96,55 +141,7 @@ public class RegisterRepairActivity extends AppCompatActivity {
         datePickerDialog.show();
     }
 
-
-
-    public void addButton(View view) {
-
-        String component = etComponent.getText().toString();
-        String price = etPrice.getText().toString();
-        String shipmentAddress = etShipmentAddress.getText().toString();
-        String shipmentDate = etShipmentDate.getText().toString();
-        String repairedDate = etRepairedDate.getText().toString();
-
-        if (component.isEmpty() || price.isEmpty() || shipmentAddress.isEmpty()) {
-            Snackbar.make(this.getCurrentFocus(), required_data, BaseTransientBottomBar.LENGTH_LONG).show();
-            return;
-        }
-
-        if (shipmentDate.isEmpty()){
-            shipmentDate = "0000-01-01";
-        }
-
-        if (repairedDate.isEmpty()){
-            repairedDate = "0000-01-01";
-        }
-
-        repair = new Repair(component, price, shipmentAddress, Date.valueOf(shipmentDate), Date.valueOf(repairedDate));
-
-
-        final AppDatabase database = Room.databaseBuilder(this, AppDatabase.class, DATABASE_REPAIRS)
-                .allowMainThreadQueries().build();
-        try {
-            database.repairDao().insert(repair);
-
-            Toast.makeText(this, R.string.repair_registered, Toast.LENGTH_LONG).show();
-            etComponent.setText("");
-            etPrice.setText("");
-            etShipmentAddress.setText("");
-            etShipmentDate.setText("");
-            etRepairedDate.setText("");
-            onBackPressed();
-
-        } catch (SQLiteConstraintException sce) {
-            Snackbar.make(etComponent, R.string.error_registering, BaseTransientBottomBar.LENGTH_LONG).show();
-        }
-        database.close();
-    }
-
-    public void cancelButton(View view) {
-        onBackPressed();
-    }
-
+    //ACTION BAR
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -164,12 +161,14 @@ public class RegisterRepairActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    //IDIOMA
+
     private void showLanguageSelectionDialog() {
-        String[] languages = {"Español", "English"};
+        String[] languages = {getString(R.string.Spanish), getString(R.string.English)};
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Select language");
-        builder.setItems(languages, (dialog, which) -> {
-            switch (which) {
+        builder.setTitle(R.string.selectLanguage);
+        builder.setItems(languages, (dialog, which) ->{
+            switch (which){
                 case 0:
                     setLocale("es");
                     break;

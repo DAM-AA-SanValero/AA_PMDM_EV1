@@ -21,21 +21,25 @@ public class MenuActivity extends AppCompatActivity {
         setContentView(R.layout.activity_menu);
     }
 
+    //LISTA DE CLIENTES
     public void viewClients (View view){
         Intent intent = new Intent(this, ViewClientActivity.class);
         startActivity(intent);
     }
 
+    //LISTA DE PRODUCTOS
     public void viewProducts (View view){
         Intent intent = new Intent(this, ViewProductActivity.class);
         startActivity(intent);
     }
 
+    //LISTA DE REPARACIONES
     public void viewRepairs (View view){
         Intent intent = new Intent(this, ViewRepairActivity.class);
         startActivity(intent);
     }
 
+    //ACTION BAR
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.actonbar_preferencesmenu, menu);
@@ -53,10 +57,12 @@ public class MenuActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    //IDIOMA
+
     private void showLanguageSelectionDialog() {
-        String[] languages = {"Español", "English"};
+        String[] languages = {getString(R.string.Spanish), getString(R.string.English)};
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Select language");
+        builder.setTitle(R.string.selectLanguage);
         builder.setItems(languages, (dialog, which) ->{
             switch (which){
                 case 0:

@@ -24,7 +24,7 @@ public interface RepairDao {
     @Query("UPDATE repair SET component = :newComponent, price = :newPrice, " +
             "shippingAddress = :newShipAddress, shipmentDate = :newShipDate, " +
             "repairedDate = :newRepairedDate WHERE component = :currentComponent")
-    void updateByComponent(String currentComponent, String newComponent, String newPrice, String newShipAddress,
+    void updateByComponent(String currentComponent, String newComponent, double newPrice, String newShipAddress,
                       Date newShipDate, Date newRepairedDate);
     @Insert
     void insert(Repair repair);

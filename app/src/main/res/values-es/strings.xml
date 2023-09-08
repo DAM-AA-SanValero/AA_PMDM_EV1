@@ -34,7 +34,7 @@
     <string name="type">Tipo de producto</string>
     <string name="price">Precio</string>
     <string name="inStock">Disponible</string>
-    <string name="stock">"Está disponible?: "</string>
+    <string name="stock">"¿Está disponible?"</string>
     <string name="origin">Origen del producto</string>
     <string name="type_required">Tipo de producto*</string>
     <string name="price_required">Precio*</string>
@@ -52,10 +52,19 @@
     <string name="register_repair">Registrar reparación</string>
     <string name="component_required">Componente*</string>
     <string name="address_required">Dirección de envío*</string>
-    <string name="shipment_date">Fecha de envío</string>
+    <string name="shipment_date">Fecha de envío: </string>
     <string name="repaireddate">Fecha de reparación</string>
     <string name="repair_registered">Datos de reparación registrados</string>
-    <string name="repair_date">Reparar fecha</string>
+    <string name="repair_date">Fecha de reparación: </string>
     <string name="error_updating">Error mientras actualiza</string>
     <string name="not_shipped">Aún no enviado</string>
+    <string name="Spanish">Español</string>
+    <string name="English">Inglés</string>
+    <string name="selectLanguage">Selecciona un idioma</string>
+    <string name="clientUpdated">Cliente actualizado</string>
+    <string name="clientDeleted">Cliente eliminado</string>
+    <string name="productDeleted">Producto eliminado</string>
+    <string name="repairDeleted">Reparación eliminada</string>
+    <string name="productUpdated">Producto actualizado</string>
+    <string name="repairUpdated">Reparación actualizada</string>
 </resources>

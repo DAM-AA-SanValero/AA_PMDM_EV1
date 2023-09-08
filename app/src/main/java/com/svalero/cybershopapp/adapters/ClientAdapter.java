@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
@@ -23,10 +24,11 @@ import com.svalero.cybershopapp.domain.Client;
 import java.util.List;
 
 public class ClientAdapter extends RecyclerView.Adapter<ClientAdapter.ClientHolder> {
+
     public List<Client> clientList;
     public Context context;
-
     ClientAdapter clientAdapter;
+
     public ClientAdapter(List<Client> clientList, Context context) {
         this.clientList = clientList;
         this.context = context;
@@ -73,7 +75,6 @@ public class ClientAdapter extends RecyclerView.Adapter<ClientAdapter.ClientHold
             updateButton = view.findViewById(R.id.updateButton);
             deleteButton = view.findViewById(R.id.deleteButton);
 
-
             detailsButton.setOnClickListener(v -> seeClient(getAdapterPosition()));
             updateButton.setOnClickListener(v -> updateClient(getAdapterPosition()));
             deleteButton.setOnClickListener(v -> deleteClient(getAdapterPosition()));
@@ -86,8 +87,6 @@ public class ClientAdapter extends RecyclerView.Adapter<ClientAdapter.ClientHold
         Intent intent = new Intent(context, ClientDetailsActivity.class);
         intent.putExtra("name", client.getName());
         context.startActivity(intent);
-
-
     }
     public void updateClient(int position){
         Client client = clientList.get(position);
@@ -105,16 +104,14 @@ public class ClientAdapter extends RecyclerView.Adapter<ClientAdapter.ClientHold
                             .allowMainThreadQueries().build();
                     Client client = clientList.get(position);
                     db.clientDao().delete(client);
+                    Toast.makeText(context, R.string.clientDeleted, Toast.LENGTH_LONG).show();
 
                     clientList.remove(position);
                     notifyItemRemoved(position);
-                })
-                        .setNegativeButton(R.string.no, (dialog, id) -> dialog.dismiss());
+                }).setNegativeButton(R.string.no, (dialog, id) -> dialog.dismiss());
         AlertDialog dialog = builder.create();
         dialog.show();
 
+
     }
-
-
-
 }

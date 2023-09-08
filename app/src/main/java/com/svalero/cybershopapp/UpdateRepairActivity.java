@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -32,19 +33,14 @@ import java.util.Calendar;
 import java.util.Locale;
 
 public class UpdateRepairActivity extends AppCompatActivity {
-    private TextView tvComponent;
-    private TextView tvPrice;
-    private TextView tvShipmentAddress;
-    private TextView tvShipmentDate;
-    private TextView tvRepairedDate;
-    private EditText etComponent;
-    private EditText etPrice;
-    private EditText etShipmentAddress;
-    private EditText etShipmentDate;
-    private EditText etRepairedDate;
 
     private String originalComponent;
+
+    private TextView tvComponent, tvPrice, tvShipmentAddress, tvShipmentDate, tvRepairedDate;
+    private EditText etComponent, etPrice, etShipmentAddress, etShipmentDate, etRepairedDate;
+
     private AppDatabase database;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -102,7 +98,7 @@ public class UpdateRepairActivity extends AppCompatActivity {
 
     private void fillData(Repair repair) {
         tvComponent.setText(repair.getComponent());
-        tvPrice.setText(repair.getPrice());
+        tvPrice.setText(String.valueOf(repair.getPrice()));
         tvShipmentAddress.setText(repair.getShippingAddress());
         tvShipmentDate.setText(String.valueOf(repair.getShipmentDate()));
         tvRepairedDate.setText(String.valueOf(repair.getRepairedDate()));
@@ -111,7 +107,7 @@ public class UpdateRepairActivity extends AppCompatActivity {
 
         String currentComponent = originalComponent;
         String newComponent = etComponent.getText().toString();
-        String newPrice = etPrice.getText().toString();
+        double newPrice = Double.parseDouble(etPrice.getText().toString());
         String newShipAddress = etShipmentAddress.getText().toString();
         String newShipDate = etShipmentDate.getText().toString();
         String newRepairedDate = etRepairedDate.getText().toString();
@@ -138,6 +134,7 @@ public class UpdateRepairActivity extends AppCompatActivity {
 
         database.repairDao().updateByComponent(currentComponent, newComponent, newPrice, newShipAddress,
                 dbShipmentDate, dbRepairedDate);
+        Toast.makeText(this, R.string.repairUpdated, Toast.LENGTH_LONG).show();
 
         Repair updatedRepair = database.repairDao().getByComponent(currentComponent);
 
@@ -148,11 +145,13 @@ public class UpdateRepairActivity extends AppCompatActivity {
     }
     public void cancelButton(View view){onBackPressed();}
 
-
+//Conversión de fecha Date a SQL
     private String convertDateToSqlFormat(String dateInOriginalFormat) {
         try {
-            SimpleDateFormat originalFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-            SimpleDateFormat sqlFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+            SimpleDateFormat originalFormat =
+                    new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+            SimpleDateFormat sqlFormat =
+                    new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
             java.util.Date date = originalFormat.parse(dateInOriginalFormat);
             return sqlFormat.format(date);
         } catch (ParseException e) {
@@ -161,6 +160,7 @@ public class UpdateRepairActivity extends AppCompatActivity {
         }
     }
 
+    //ACTION BAR
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.actonbar_preferencesmenu, menu);
@@ -178,10 +178,11 @@ public class UpdateRepairActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    //IDIOMA
     private void showLanguageSelectionDialog() {
-        String[] languages = {"Español", "English"};
+        String[] languages = {getString(R.string.Spanish), getString(R.string.English)};
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Select language");
+        builder.setTitle(R.string.selectLanguage);
         builder.setItems(languages, (dialog, which) ->{
             switch (which){
                 case 0:

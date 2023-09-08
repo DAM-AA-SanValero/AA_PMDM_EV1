@@ -48,13 +48,14 @@ public class ViewProductActivity extends AppCompatActivity  {
     protected void onResume() {
         super.onResume();
 
-        final AppDatabase database = Room.databaseBuilder(this, AppDatabase.class, DATABASE_PRODUCTS)
-                .allowMainThreadQueries().build();
+        final AppDatabase database = Room.databaseBuilder(this,
+                        AppDatabase.class, DATABASE_PRODUCTS).allowMainThreadQueries().build();
         productList.clear();
         productList.addAll(database.productDao().getAll());
         productAdapter.notifyDataSetChanged();
     }
 
+    //ACTION BAR
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.actionbar_addproduct_preferences, menu);
@@ -76,10 +77,12 @@ public class ViewProductActivity extends AppCompatActivity  {
         return super.onOptionsItemSelected(item);
     }
 
+    //IDIOMA
+
     private void showLanguageSelectionDialog() {
-        String[] languages = {"Español", "English"};
+        String[] languages = {getString(R.string.Spanish), getString(R.string.English)};
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Select language");
+        builder.setTitle(R.string.selectLanguage);
         builder.setItems(languages, (dialog, which) ->{
             switch (which){
                 case 0:

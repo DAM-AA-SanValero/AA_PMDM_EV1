@@ -24,7 +24,7 @@ public class Product {
     @ColumnInfo
     private String type;
     @ColumnInfo
-    private String price;
+    private double price;
     @ColumnInfo
     private String origin;
     @ColumnInfo
@@ -32,7 +32,8 @@ public class Product {
     @ColumnInfo
     private byte[] image;
 
-    public Product(String name, String type, String price, String origin, boolean inStock, byte[] image) {
+    public Product(String name, String type, double price, String origin,
+                   boolean inStock, byte[] image) {
         this.name = name;
         this.type = type;
         this.price = price;
@@ -57,11 +58,11 @@ public class Product {
         this.type = type;
     }
 
-    public String getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 

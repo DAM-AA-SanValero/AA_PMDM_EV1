@@ -22,7 +22,7 @@ public class Client {
     @ColumnInfo
     private String surname;
     @ColumnInfo
-    private String number;
+    private int number;
     @ColumnInfo
     private Date register_date;
     @ColumnInfo
@@ -34,7 +34,8 @@ public class Client {
     @ColumnInfo
     private byte[] image;
 
-    public Client(String name, String surname, String number, Date register_date, boolean vip, double latitude, double longitude, byte[] image) {
+    public Client(String name, String surname, int number, Date register_date,
+                  boolean vip, double latitude, double longitude, byte[] image) {
         this.name = name;
         this.surname = surname;
         this.number = number;
@@ -69,11 +70,11 @@ public class Client {
         this.surname = surname;
     }
 
-    public String getNumber() {
+    public int getNumber() {
         return number;
     }
 
-    public void setNumber(String number) {
+    public void setNumber(int number) {
         this.number = number;
     }
 

@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
@@ -32,14 +33,14 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductH
     }
 
     @Override
-    public ProductAdapter.ProductHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ProductHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.product_item, parent, false);
-        return new ProductAdapter.ProductHolder(view);
+        return new ProductHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(ProductAdapter.ProductHolder holder, int position) {
+    public void onBindViewHolder(ProductHolder holder, int position) {
         holder.productName.setText(productList.get(position).getName());
         holder.productType.setText(productList.get(position).getType());
 
@@ -48,8 +49,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductH
         } else {
             holder.productStock.setText(R.string.no_it_isnt);
         }
-
-
     }
 
     @Override
@@ -79,7 +78,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductH
             updateButton = view.findViewById(R.id.updateButton);
             deleteButton = view.findViewById(R.id.deleteButton);
 
-
             detailsButton.setOnClickListener(v -> seeProduct(getAdapterPosition()));
             updateButton.setOnClickListener(v -> updateProduct(getAdapterPosition()));
             deleteButton.setOnClickListener(v -> deleteProduct(getAdapterPosition()));
@@ -92,8 +90,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductH
         Intent intent = new Intent(context, ProductDetailsActivity.class);
         intent.putExtra("name", product.getName());
         context.startActivity(intent);
-
-
     }
     public void updateProduct(int position){
         Product product = productList.get(position);
@@ -111,14 +107,12 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductH
                             .allowMainThreadQueries().build();
                     Product product = productList.get(position);
                     db.productDao().delete(product);
+                    Toast.makeText(context, R.string.productDeleted, Toast.LENGTH_LONG).show();
 
                     productList.remove(position);
                     notifyItemRemoved(position);
-                })
-                .setNegativeButton(R.string.no, (dialog, id) -> dialog.dismiss());
+                }).setNegativeButton(R.string.no, (dialog, id) -> dialog.dismiss());
         AlertDialog dialog = builder.create();
         dialog.show();
-
     }
-
 }
