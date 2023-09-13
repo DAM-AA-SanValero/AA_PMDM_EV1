@@ -17,7 +17,7 @@ De cada clase se ha hecho un **CRUD**, incluyendo campos y elementos **TextView*
 de rellenar campos requeridos, etc...). También se han utilizado **Adapters** para cada clase.
 
 Tanto en Client como en Product, se puede interactuar y acceder a la *Galeria* del dispositivo 
-virtual para seleccionar una foto de la clase correspondiente
+virtual para seleccionar una foto de la clase correspondiente. Hay dialogos como cliente eliminado, registrado o actualizado
 
 También se ha añadido **MapBox** para el caso de localizar los clientes registrados. Se ha
 configurado un **ActionBar** para acceder al mapa en pantalla, ademas de incluir **Idiomas**
